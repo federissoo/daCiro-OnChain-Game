@@ -1,0 +1,17 @@
+# dipendenze
+node_modules/
+
+# variabili d'ambiente — MAI committare
+.env
+.env.local
+.env.production
+
+# Foundry
+out/
+cache/
+
+# TypeScript build
+dist/
+
+# OS
+.DS_Store

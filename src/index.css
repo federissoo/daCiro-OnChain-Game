@@ -1,0 +1,364 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap');
+
+/* ═══════════════════════════════════════════
+   ROAST THE BOT — Elegant Minimal Design
+   ═══════════════════════════════════════════ */
+
+:root {
+  --bg: #F4F0EB;
+  --bg-card: #FFFFFF;
+  --bg-muted: #EDE8E1;
+  --accent: #C62828;
+  --accent-dark: #8E0000;
+  --green: #2E7D32;
+  --green-dark: #1B5E20;
+  --teal: #00695C;
+  --gold: #F9A825;
+  --black: #1A1A1A;
+  --gray-700: #424242;
+  --gray-500: #757575;
+  --gray-300: #BDBDBD;
+  --gray-100: #F5F5F5;
+
+  --outline: 2px solid var(--black);
+  --outline-thick: 3px solid var(--black);
+  --shadow: 4px 4px 0px var(--black);
+  --shadow-sm: 2px 2px 0px var(--black);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 18px;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', 'Space Grotesk', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--black);
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+
+input {
+  font-family: var(--font-body);
+  font-size: 16px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════ */
+
+@keyframes idle-bob {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes angry-shake {
+
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+
+  20% {
+    transform: translateX(-5px) rotate(-2deg);
+  }
+
+  40% {
+    transform: translateX(5px) rotate(2deg);
+  }
+
+  60% {
+    transform: translateX(-3px) rotate(-1deg);
+  }
+
+  80% {
+    transform: translateX(3px) rotate(1deg);
+  }
+}
+
+@keyframes page-shake {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-2px, 1px);
+  }
+
+  50% {
+    transform: translate(1px, -2px);
+  }
+
+  75% {
+    transform: translate(-1px, 1px);
+  }
+}
+
+@keyframes flash-red {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes timer-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes steam-puff {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translateY(-25px) scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes spiral {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes explode-part {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--ex), var(--ey)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes typing-dot {
+
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-110vh) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes laugh-shake {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-4deg) scale(1.03);
+  }
+
+  75% {
+    transform: rotate(4deg) scale(1.03);
+  }
+}
+
+@keyframes toast-slide {
+  0% {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+
+  10% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  90% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══════════════════════════════
+   CONFETTI
+   ═══════════════════════════════ */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  animation: confetti-fall linear forwards;
+}
+
+/* ═══════════════════════════════
+   BUTTONS
+   ═══════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  letter-spacing: 0.5px;
+  border: var(--outline-thick);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-transform: uppercase;
+  transition: transform 0.1s, box-shadow 0.1s;
+  user-select: none;
+}
+
+.btn:hover {
+  transform: translateY(2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ═══════════════════════════════
+   CHAT BUBBLE TAILS
+   ═══════════════════════════════ */
+.bubble-left::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 11px;
+  border: 8px solid transparent;
+  border-right: 10px solid var(--black);
+  border-left: 0;
+}
+
+.bubble-left::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 13px;
+  border: 6px solid transparent;
+  border-right: 8px solid var(--bg-card);
+  border-left: 0;
+}
+
+.bubble-right::before {
+  content: '';
+  position: absolute;
+  right: -9px;
+  top: 11px;
+  border: 8px solid transparent;
+  border-left: 10px solid var(--black);
+  border-right: 0;
+}
+
+.bubble-right::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 13px;
+  border: 6px solid transparent;
+  border-left: 8px solid var(--accent);
+  border-right: 0;
+}
+
+/* ═══════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-muted);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 8px;
+  border: 1.5px solid var(--black);
+}

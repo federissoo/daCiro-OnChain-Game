@@ -44,123 +44,125 @@ function CiroCharacter({ surrender, state, size = 200 }: { surrender: number; st
     if (state === 'EXPLODING') {
         // Ciro collapses — show pineapple
         return (
-            <div style={{ width: size, height: size * 1.4, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: size, height: size * 1.65, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ fontSize: size * 0.6, textAlign: 'center', animation: 'pineapple-drop 0.6s ease-out forwards' }}>🍍</div>
-                <div style={{ position: 'absolute', bottom: 0, fontSize: size * 0.25, textAlign: 'center', width: '100%', color: '#CC2200', fontFamily: 'Playfair Display, serif', fontWeight: 800 }}>Mamma mia...</div>
+                <div style={{ position: 'absolute', bottom: 0, fontSize: size * 0.25, textAlign: 'center', width: '100%', color: '#CC2200', fontFamily: 'Outfit, sans-serif', fontWeight: 800 }}>Mamma mia...</div>
             </div>
         );
     }
 
     return (
-        <div style={{ width: size, height: size * 1.4, position: 'relative' }} className={animClass}>
-            <svg viewBox="0 0 160 230" width={size} height={size * 1.4}>
+        <div style={{ width: size, height: size * 1.65, position: 'relative' }} className={animClass}>
+            <svg viewBox="0 0 160 265" width={size} height={size * 1.65}>
+                <g transform="translate(0, 35)">
 
-                {/* Apron/body */}
-                <path d="M 35 160 C 25 175, 15 200, 10 225 L 150 225 C 145 200, 135 175, 125 160 Z" fill={apronColor} stroke="#C8B89A" strokeWidth="2" strokeLinejoin="round" />
-                {/* Tomato stains on apron */}
-                <circle cx="70" cy="190" r="8" fill="#CC2200" opacity="0.6" />
-                <circle cx="95" cy="205" r="5" fill="#CC2200" opacity="0.5" />
-                <circle cx="60" cy="210" r="3" fill="#CC2200" opacity="0.4" />
-                {/* Apron strings */}
-                <path d="M 62 162 L 55 145 L 50 130" fill="none" stroke="#C8B89A" strokeWidth="2" strokeLinecap="round" />
-                <path d="M 98 162 L 105 145 L 110 130" fill="none" stroke="#C8B89A" strokeWidth="2" strokeLinecap="round" />
+                    {/* Apron/body */}
+                    <path d="M 35 160 C 25 175, 15 200, 10 225 L 150 225 C 145 200, 135 175, 125 160 Z" fill={apronColor} stroke="#C8B89A" strokeWidth="2" strokeLinejoin="round" />
+                    {/* Tomato stains on apron */}
+                    <circle cx="70" cy="190" r="8" fill="#CC2200" opacity="0.6" />
+                    <circle cx="95" cy="205" r="5" fill="#CC2200" opacity="0.5" />
+                    <circle cx="60" cy="210" r="3" fill="#CC2200" opacity="0.4" />
+                    {/* Apron strings */}
+                    <path d="M 62 162 L 55 145 L 50 130" fill="none" stroke="#C8B89A" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M 98 162 L 105 145 L 110 130" fill="none" stroke="#C8B89A" strokeWidth="2" strokeLinecap="round" />
 
-                {/* Neck */}
-                <path d="M 65 148 C 65 162, 95 162, 95 148 Z" fill={skinColor} stroke="#C8A070" strokeWidth="1.5" strokeLinejoin="round" />
+                    {/* Neck */}
+                    <path d="M 65 148 C 65 162, 95 162, 95 148 Z" fill={skinColor} stroke="#C8A070" strokeWidth="1.5" strokeLinejoin="round" />
 
-                {/* Shirt collar below apron */}
-                <path d="M 50 130 C 45 145, 40 158, 35 160 L 125 160 C 120 158, 115 145, 110 130 Z" fill="#2D6A6A" stroke="#1A4040" strokeWidth="2" strokeLinejoin="round" />
+                    {/* Shirt collar below apron */}
+                    <path d="M 50 130 C 45 145, 40 158, 35 160 L 125 160 C 120 158, 115 145, 110 130 Z" fill="#2D6A6A" stroke="#1A4040" strokeWidth="2" strokeLinejoin="round" />
 
-                {/* Ears */}
-                <path d="M 38 78 C 18 72, 18 100, 38 106" fill={skinColor} stroke="#C8A070" strokeWidth="2.5" strokeLinejoin="round" />
-                <path d="M 122 78 C 142 72, 142 100, 122 106" fill={skinColor} stroke="#C8A070" strokeWidth="2.5" strokeLinejoin="round" />
-                <path d="M 34 86 C 26 88, 27 96, 30 98" fill="none" stroke="#C8A070" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M 126 86 C 134 88, 133 96, 130 98" fill="none" stroke="#C8A070" strokeWidth="1.5" strokeLinecap="round" />
+                    {/* Ears */}
+                    <path d="M 38 78 C 18 72, 18 100, 38 106" fill={skinColor} stroke="#C8A070" strokeWidth="2.5" strokeLinejoin="round" />
+                    <path d="M 122 78 C 142 72, 142 100, 122 106" fill={skinColor} stroke="#C8A070" strokeWidth="2.5" strokeLinejoin="round" />
+                    <path d="M 34 86 C 26 88, 27 96, 30 98" fill="none" stroke="#C8A070" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M 126 86 C 134 88, 133 96, 130 98" fill="none" stroke="#C8A070" strokeWidth="1.5" strokeLinecap="round" />
 
-                {/* Main head - plump and round */}
-                <path d="M 42 55 Q 48 20, 80 18 Q 112 20, 118 55 Q 128 92, 122 120 Q 118 148, 80 148 Q 42 148, 38 120 Q 32 92, 42 55 Z" fill={skinColor} stroke="#C8A070" strokeWidth="3" strokeLinejoin="round" />
+                    {/* Main head - plump and round */}
+                    <path d="M 42 55 Q 48 20, 80 18 Q 112 20, 118 55 Q 128 92, 122 120 Q 118 148, 80 148 Q 42 148, 38 120 Q 32 92, 42 55 Z" fill={skinColor} stroke="#C8A070" strokeWidth="3" strokeLinejoin="round" />
 
-                {/* Forehead wrinkles – more prominent when distressed */}
-                <path d="M 55 50 Q 80 47, 105 52" fill="none" stroke="#C8A070" strokeWidth={surrender >= 30 ? 2 : 1} opacity={surrender >= 20 ? 1 : 0.4} />
-                {surrender >= 40 && <path d="M 58 57 Q 80 54, 102 59" fill="none" stroke="#C8A070" strokeWidth="1.5" />}
-                {surrender >= 65 && <path d="M 52 44 Q 80 40, 108 46" fill="none" stroke="#C8A070" strokeWidth="1.5" />}
+                    {/* Forehead wrinkles – more prominent when distressed */}
+                    <path d="M 55 50 Q 80 47, 105 52" fill="none" stroke="#C8A070" strokeWidth={surrender >= 30 ? 2 : 1} opacity={surrender >= 20 ? 1 : 0.4} />
+                    {surrender >= 40 && <path d="M 58 57 Q 80 54, 102 59" fill="none" stroke="#C8A070" strokeWidth="1.5" />}
+                    {surrender >= 65 && <path d="M 52 44 Q 80 40, 108 46" fill="none" stroke="#C8A070" strokeWidth="1.5" />}
 
-                {/* CHEF HAT */}
-                <rect x="42" y="20" width="76" height="10" rx="3" fill="#E8E0D0" stroke="#C8B89A" strokeWidth="2" />
-                <path d="M 48 20 C 40 20, 35 0, 45 -2 C 50 -15, 58 -20, 65 -15 C 68 -28, 92 -28, 95 -15 C 102 -20, 110 -15, 115 -2 C 125 0, 120 20, 112 20 Z" fill={chefHatColor} stroke="#C8B89A" strokeWidth="2" />
-                {/* Hat texture lines */}
-                <path d="M 65 3 Q 68 -12, 72 -18" fill="none" stroke="#C8B89A" strokeWidth="1" opacity="0.5" />
-                <path d="M 80 0 Q 80 -18, 80 -22" fill="none" stroke="#C8B89A" strokeWidth="1" opacity="0.5" />
-                <path d="M 95 3 Q 92 -12, 88 -18" fill="none" stroke="#C8B89A" strokeWidth="1" opacity="0.5" />
+                    {/* CHEF HAT */}
+                    <rect x="42" y="20" width="76" height="10" rx="3" fill="#E8E0D0" stroke="#C8B89A" strokeWidth="2" />
+                    <path d="M 48 20 C 40 20, 35 0, 45 -2 C 50 -15, 58 -20, 65 -15 C 68 -28, 92 -28, 95 -15 C 102 -20, 110 -15, 115 -2 C 125 0, 120 20, 112 20 Z" fill={chefHatColor} stroke="#C8B89A" strokeWidth="2" />
+                    {/* Hat texture lines */}
+                    <path d="M 65 3 Q 68 -12, 72 -18" fill="none" stroke="#C8B89A" strokeWidth="1" opacity="0.5" />
+                    <path d="M 80 0 Q 80 -18, 80 -22" fill="none" stroke="#C8B89A" strokeWidth="1" opacity="0.5" />
+                    <path d="M 95 3 Q 92 -12, 88 -18" fill="none" stroke="#C8B89A" strokeWidth="1" opacity="0.5" />
 
-                {/* Eyebrows */}
-                <path
-                    d={`M 42 ${65 + eyebrowOffset} C 56 ${60 + eyebrowOffset}, 64 ${63 + eyebrowOffset}, 72 ${68 + eyebrowOffset}`}
-                    fill="none" stroke={mustacheColor} strokeWidth="5" strokeLinecap="round"
-                />
-                <path
-                    d={`M 118 ${65 + eyebrowOffset} C 104 ${60 + eyebrowOffset}, 96 ${63 + eyebrowOffset}, 88 ${68 + eyebrowOffset}`}
-                    fill="none" stroke={mustacheColor} strokeWidth="5" strokeLinecap="round"
-                />
+                    {/* Eyebrows */}
+                    <path
+                        d={`M 42 ${65 + eyebrowOffset} C 56 ${60 + eyebrowOffset}, 64 ${63 + eyebrowOffset}, 72 ${68 + eyebrowOffset}`}
+                        fill="none" stroke={mustacheColor} strokeWidth="5" strokeLinecap="round"
+                    />
+                    <path
+                        d={`M 118 ${65 + eyebrowOffset} C 104 ${60 + eyebrowOffset}, 96 ${63 + eyebrowOffset}, 88 ${68 + eyebrowOffset}`}
+                        fill="none" stroke={mustacheColor} strokeWidth="5" strokeLinecap="round"
+                    />
 
-                {/* Eyes */}
-                <ellipse cx="57" cy="78" rx="10" ry={surrender >= 70 ? 8 : 10} fill="white" stroke="#3A2010" strokeWidth="2" />
-                <ellipse cx="103" cy="78" rx="10" ry={surrender >= 70 ? 8 : 10} fill="white" stroke="#3A2010" strokeWidth="2" />
-                {/* Pupils – shocked when surrendering */}
-                <circle cx={surrender >= 60 ? 55 : 57} cy={surrender >= 60 ? 76 : 79} r={surrender >= 80 ? 3 : 5} fill="#3A2010" />
-                <circle cx={surrender >= 60 ? 105 : 103} cy={surrender >= 60 ? 76 : 79} r={surrender >= 80 ? 3 : 5} fill="#3A2010" />
-                {/* Tear drops when caving */}
-                {isCaving && (
-                    <>
-                        <path d="M 52 88 Q 50 94, 52 98" fill="none" stroke="#88AACC" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M 108 88 Q 110 94, 108 98" fill="none" stroke="#88AACC" strokeWidth="2" strokeLinecap="round" />
-                    </>
-                )}
+                    {/* Eyes */}
+                    <ellipse cx="57" cy="78" rx="10" ry={surrender >= 70 ? 8 : 10} fill="white" stroke="#3A2010" strokeWidth="2" />
+                    <ellipse cx="103" cy="78" rx="10" ry={surrender >= 70 ? 8 : 10} fill="white" stroke="#3A2010" strokeWidth="2" />
+                    {/* Pupils – shocked when surrendering */}
+                    <circle cx={surrender >= 60 ? 55 : 57} cy={surrender >= 60 ? 76 : 79} r={surrender >= 80 ? 3 : 5} fill="#3A2010" />
+                    <circle cx={surrender >= 60 ? 105 : 103} cy={surrender >= 60 ? 76 : 79} r={surrender >= 80 ? 3 : 5} fill="#3A2010" />
+                    {/* Tear drops when caving */}
+                    {isCaving && (
+                        <>
+                            <path d="M 52 88 Q 50 94, 52 98" fill="none" stroke="#88AACC" strokeWidth="2" strokeLinecap="round" />
+                            <path d="M 108 88 Q 110 94, 108 98" fill="none" stroke="#88AACC" strokeWidth="2" strokeLinecap="round" />
+                        </>
+                    )}
 
-                {/* Bulbous nose */}
-                <path d="M 70 88 C 58 114, 66 130, 80 130 C 94 130, 102 114, 90 88 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2.5" strokeLinejoin="round" />
-                <circle cx="70" cy="122" r="5" fill={skinColor} stroke="#C8A070" strokeWidth="1.5" />
-                <circle cx="90" cy="122" r="5" fill={skinColor} stroke="#C8A070" strokeWidth="1.5" />
+                    {/* Bulbous nose */}
+                    <path d="M 70 88 C 58 114, 66 130, 80 130 C 94 130, 102 114, 90 88 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2.5" strokeLinejoin="round" />
+                    <circle cx="70" cy="122" r="5" fill={skinColor} stroke="#C8A070" strokeWidth="1.5" />
+                    <circle cx="90" cy="122" r="5" fill={skinColor} stroke="#C8A070" strokeWidth="1.5" />
 
-                {/* Big thick Neapolitan mustache */}
-                <path d="M 50 132 C 60 128, 72 132, 80 130 C 88 132, 100 128, 110 132 C 105 140, 95 136, 80 138 C 65 136, 55 140, 50 132 Z" fill={mustacheColor} stroke={mustacheColor} strokeWidth="1" strokeLinejoin="round" />
-                {/* Mustache highlight */}
-                <path d="M 56 131 Q 68 129, 80 131" fill="none" stroke="#5A3820" strokeWidth="1" opacity="0.5" />
+                    {/* Big thick Neapolitan mustache */}
+                    <path d="M 50 132 C 60 128, 72 132, 80 130 C 88 132, 100 128, 110 132 C 105 140, 95 136, 80 138 C 65 136, 55 140, 50 132 Z" fill={mustacheColor} stroke={mustacheColor} strokeWidth="1" strokeLinejoin="round" />
+                    {/* Mustache highlight */}
+                    <path d="M 56 131 Q 68 129, 80 131" fill="none" stroke="#5A3820" strokeWidth="1" opacity="0.5" />
 
-                {/* Mouth */}
-                {mouthType === 'frown' && (
-                    <path d="M 58 140 Q 80 133, 102 140" fill="none" stroke="#3A2010" strokeWidth="3" strokeLinecap="round" />
-                )}
-                {mouthType === 'grimace' && (
-                    <g>
-                        <path d="M 60 138 Q 80 132, 100 138" fill="none" stroke="#3A2010" strokeWidth="3" strokeLinecap="round" />
-                        <line x1="68" y1="134" x2="68" y2="140" stroke="#3A2010" strokeWidth="2" />
-                        <line x1="80" y1="132" x2="80" y2="138" stroke="#3A2010" strokeWidth="2" />
-                        <line x1="92" y1="134" x2="92" y2="140" stroke="#3A2010" strokeWidth="2" />
-                    </g>
-                )}
-                {mouthType === 'open' && (
-                    <g>
-                        <path d="M 58 136 C 65 150, 95 150, 102 136 Z" fill="#3A1010" stroke="#3A2010" strokeWidth="2" strokeLinejoin="round" />
-                        <path d="M 63 148 C 70 142, 90 142, 97 148 C 93 154, 67 154, 63 148 Z" fill="#CC4444" />
-                        <path d="M 60 137 L 72 142 L 88 142 L 100 137" fill="white" stroke="#3A2010" strokeWidth="1" strokeLinejoin="round" />
-                    </g>
-                )}
+                    {/* Mouth */}
+                    {mouthType === 'frown' && (
+                        <path d="M 58 140 Q 80 133, 102 140" fill="none" stroke="#3A2010" strokeWidth="3" strokeLinecap="round" />
+                    )}
+                    {mouthType === 'grimace' && (
+                        <g>
+                            <path d="M 60 138 Q 80 132, 100 138" fill="none" stroke="#3A2010" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="68" y1="134" x2="68" y2="140" stroke="#3A2010" strokeWidth="2" />
+                            <line x1="80" y1="132" x2="80" y2="138" stroke="#3A2010" strokeWidth="2" />
+                            <line x1="92" y1="134" x2="92" y2="140" stroke="#3A2010" strokeWidth="2" />
+                        </g>
+                    )}
+                    {mouthType === 'open' && (
+                        <g>
+                            <path d="M 58 136 C 65 150, 95 150, 102 136 Z" fill="#3A1010" stroke="#3A2010" strokeWidth="2" strokeLinejoin="round" />
+                            <path d="M 63 148 C 70 142, 90 142, 97 148 C 93 154, 67 154, 63 148 Z" fill="#CC4444" />
+                            <path d="M 60 137 L 72 142 L 88 142 L 100 137" fill="white" stroke="#3A2010" strokeWidth="1" strokeLinejoin="round" />
+                        </g>
+                    )}
 
-                {/* Hands gesturing – raised when talking */}
-                {state === 'PLAYING' && !isVacillating && (
-                    <>
-                        <path d="M 20 170 C 10 155, 18 140, 30 148 C 32 142, 40 145, 38 152 L 36 170 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
-                        <path d="M 140 170 C 150 155, 142 140, 130 148 C 128 142, 120 145, 122 152 L 124 170 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
-                    </>
-                )}
-                {/* Hands on head when vacillating (70+) */}
-                {isVacillating && (
-                    <>
-                        <path d="M 25 55 C 15 45, 22 30, 38 38 C 40 32, 48 35, 46 42 L 44 55 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
-                        <path d="M 135 55 C 145 45, 138 30, 122 38 C 120 32, 112 35, 114 42 L 116 55 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
-                    </>
-                )}
+                    {/* Hands gesturing – raised when talking */}
+                    {state === 'PLAYING' && !isVacillating && (
+                        <>
+                            <path d="M 20 170 C 10 155, 18 140, 30 148 C 32 142, 40 145, 38 152 L 36 170 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
+                            <path d="M 140 170 C 150 155, 142 140, 130 148 C 128 142, 120 145, 122 152 L 124 170 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
+                        </>
+                    )}
+                    {/* Hands on head when vacillating (70+) */}
+                    {isVacillating && (
+                        <>
+                            <path d="M 25 55 C 15 45, 22 30, 38 38 C 40 32, 48 35, 46 42 L 44 55 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
+                            <path d="M 135 55 C 145 45, 138 30, 122 38 C 120 32, 112 35, 114 42 L 116 55 Z" fill={skinColor} stroke="#C8A070" strokeWidth="2" strokeLinejoin="round" />
+                        </>
+                    )}
+                </g>
             </svg>
         </div>
     );
@@ -173,8 +175,8 @@ function SurrenderBar({ value }: { value: number }) {
     const color = value < 25 ? '#2D6A2D' : value < 50 ? '#B8860B' : value < 75 ? '#CC6600' : '#CC2200';
     return (
         <div style={{ width: '100%' }}>
-            <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '0.72rem', fontWeight: 700, marginBottom: 5, textAlign: 'center', letterSpacing: 1.2, textTransform: 'uppercase', color: '#6B3A2A' }}>
-                Resistenza di Ciro — {Math.round(100 - value)}%
+            <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.72rem', fontWeight: 700, marginBottom: 5, textAlign: 'center', letterSpacing: 1.2, textTransform: 'uppercase', color: '#6B3A2A' }}>
+                Livello di Cedimento — {Math.round(value)}%
             </div>
             <div style={{ width: '100%', height: 20, background: '#EEE0C8', border: '2px solid #8B5E3C', borderRadius: 10, overflow: 'hidden', boxShadow: '2px 2px 0 #8B5E3C' }}>
                 {/* bar fills left = resistance; red overlay from right = surrender progress */}
@@ -236,7 +238,7 @@ function Toast({ message, onClose }: { message: string; onClose: () => void }) {
             position: 'fixed', bottom: 30, left: '50%', transform: 'translateX(-50%)',
             background: '#CC2200', color: 'white', padding: '12px 24px',
             borderRadius: '8px', border: '2px solid #8B1500',
-            boxShadow: '4px 4px 0 #8B1500', fontFamily: 'Lora, serif', fontWeight: 500,
+            boxShadow: '4px 4px 0 #8B1500', fontFamily: 'Inter, sans-serif', fontWeight: 500,
             fontSize: '0.95rem', zIndex: 10000, animation: 'toast-slide 4s ease-in-out forwards',
         }}>
             {message}
@@ -251,7 +253,7 @@ export default function DaCiroApp() {
     const [gameState, setGameState] = useState<GameState>('IDLE');
     const [wallet, setWallet] = useState<string | null>(null);
     const [surrender, setSurrender] = useState(0);
-    const [timer, setTimer] = useState(60);
+    const [timer, setTimer] = useState(90);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [isTyping, setIsTyping] = useState(false);
@@ -276,8 +278,22 @@ export default function DaCiroApp() {
         return () => { if (timerRef.current) clearInterval(timerRef.current); };
     }, [gameState]);
 
+    useEffect(() => {
+        if (timer === 0 && gameState === 'PLAYING') {
+            setGameState('LOSE');
+            if (wsRef.current) {
+                wsRef.current.close();
+                wsRef.current = null;
+            }
+        }
+    }, [timer, gameState]);
+
     useEffect(() => { if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight; }, [messages, isTyping, ciroResponseBuffer]);
-    useEffect(() => { if (gameState === 'PLAYING' && inputRef.current) inputRef.current.focus(); }, [gameState]);
+    useEffect(() => {
+        if (gameState === 'PLAYING' && !isTyping && inputRef.current) {
+            setTimeout(() => { if (inputRef.current) inputRef.current.focus(); }, 10);
+        }
+    }, [gameState, isTyping]);
 
     const connectWallet = useCallback(() => setWallet('0xA1B2...C3D4'), []);
 
@@ -333,7 +349,7 @@ export default function DaCiroApp() {
             setTimeout(() => {
                 setGameState('PLAYING');
                 setSurrender(0);
-                setTimer(60);
+                setTimer(90);
                 setMessages([{ sender: 'ciro', text: welcomeMsg, id: Date.now() }]);
                 setMsgId(0);
                 ciroResponseBufferRef.current = '';
@@ -368,7 +384,7 @@ export default function DaCiroApp() {
         }
         setGameState('IDLE');
         setSurrender(0);
-        setTimer(60);
+        setTimer(90);
         setMessages([]);
         setInput('');
         setIsTyping(false);
@@ -394,7 +410,7 @@ export default function DaCiroApp() {
             overflow: 'hidden',
             background: 'repeating-linear-gradient(0deg, #3A1A0A 0px, #3A1A0A 2px, #4A2A1A 2px, #4A2A1A 32px)',
             animation: pageShake ? 'page-shake 0.3s infinite' : 'none',
-            fontFamily: 'Lora, Georgia, serif',
+            fontFamily: 'Inter, sans-serif',
             display: 'flex',
             flexDirection: 'column',
         }}>
@@ -414,16 +430,16 @@ export default function DaCiroApp() {
                         boxShadow: '6px 6px 0 #660E00',
                         display: 'inline-block',
                     }}>
-                        <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.6rem, 5vw, 2.8rem)', fontWeight: 800, color: '#FFD700', letterSpacing: 2, lineHeight: 1.1 }}>
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(1.6rem, 5vw, 2.8rem)', fontWeight: 800, color: '#FFD700', letterSpacing: 2, lineHeight: 1.1 }}>
                             🍕 DA CIRO
                         </div>
-                        <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '0.85rem', color: '#FFEB80', letterSpacing: 3, textTransform: 'uppercase', marginTop: 4 }}>
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.85rem', color: '#FFEB80', letterSpacing: 3, textTransform: 'uppercase', marginTop: 4 }}>
                             La Pizzeria — Napoli dal 1987
                         </div>
                     </div>
 
-                    <p style={{ fontFamily: 'Lora, serif', fontSize: '1.05rem', color: '#FFF8E7', marginBottom: 32, fontWeight: 400, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                        Convincilo a mettere l'ananas. Se ci riesci, vinci tutto. 🍍
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.05rem', color: '#FFF8E7', marginBottom: 32, fontWeight: 100, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                        Convincilo a mettere l'ananas sulla pizza. Se ci riesci, vinci tutto.
                     </p>
 
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
@@ -432,26 +448,26 @@ export default function DaCiroApp() {
 
                     {/* Vault */}
                     <div style={{ ...card, display: 'inline-block', padding: '10px 28px', marginBottom: 16 }}>
-                        <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#8B5E3C', marginBottom: 4 }}>
-                            Il Tesoro del Vault
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#8B5E3C', marginBottom: 4 }}>
+                            Tesoro del Vault
                         </div>
-                        <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.8rem', fontWeight: 800, color: '#CC2200' }}>
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '1.8rem', fontWeight: 800, color: '#CC2200' }}>
                             {vaultAmount} ETH
                         </div>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
                         {!wallet ? (
-                            <button className="btn" onClick={connectWallet} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Playfair Display, serif' }}>
+                            <button className="btn" onClick={connectWallet} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>
                                 Connect Wallet
                             </button>
                         ) : (
-                            <div style={{ fontFamily: 'Lora, serif', fontSize: '0.85rem', fontWeight: 500, color: '#2D6A2D', ...card, padding: '8px 18px' }}>
+                            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 500, color: '#2D6A2D', ...card, padding: '8px 18px' }}>
                                 {wallet}
                             </div>
                         )}
                         <button className="btn" onClick={startGame} disabled={gameState === 'PAYING'}
-                            style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', fontFamily: 'Playfair Display, serif', boxShadow: '3px 3px 0 #660E00' }}>
+                            style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', fontFamily: 'Outfit, sans-serif', boxShadow: '3px 3px 0 #660E00' }}>
                             {gameState === 'PAYING' ? (
                                 <><div style={{ width: 18, height: 18, border: '2px solid #FFD700', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spinner 0.6s linear infinite' }} /> Entrando...</>
                             ) : 'Entra da Ciro — 0.001 ETH'}
@@ -467,7 +483,7 @@ export default function DaCiroApp() {
                     <div style={{ textAlign: 'center', marginBottom: 12 }}>
                         <div style={{
                             display: 'inline-block',
-                            fontFamily: 'Playfair Display, serif', fontWeight: 800,
+                            fontFamily: 'Outfit, sans-serif', fontWeight: 800,
                             fontSize: 'clamp(1.6rem, 4vw, 2.4rem)',
                             color: timer <= 10 ? '#CC2200' : '#FFF8E7',
                             background: timer <= 10 ? '#FFF8E7' : 'rgba(0,0,0,0.5)',
@@ -485,7 +501,7 @@ export default function DaCiroApp() {
                     <div style={{ display: 'flex', gap: 14, alignItems: 'stretch', flex: 1, overflow: 'hidden' }}>
                         {/* Ciro panel */}
                         <div style={{ flex: '0 0 220px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, ...card, padding: '14px 12px', alignSelf: 'flex-start' }}>
-                            <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '0.7rem', fontWeight: 700, color: '#8B5E3C', letterSpacing: 1.5, textTransform: 'uppercase' }}>
+                            <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#8B5E3C', letterSpacing: 1.5, textTransform: 'uppercase' }}>
                                 🍕 Da Ciro
                             </div>
                             <CiroCharacter surrender={surrender} state={gameState} size={180} />
@@ -495,16 +511,16 @@ export default function DaCiroApp() {
                         {/* Chat panel – looks like an order pad */}
                         <div style={{ flex: 1, minWidth: 280, display: 'flex', flexDirection: 'column', background: '#FFFBF0', border: '2px solid #8B5E3C', borderRadius: '8px', boxShadow: '4px 4px 0 #8B3A2A', overflow: 'hidden' }}>
                             {/* Chat header */}
-                            <div style={{ background: '#CC2200', color: '#FFD700', padding: '10px 16px', fontFamily: 'Playfair Display, serif', fontSize: '0.8rem', fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', borderBottom: '2px solid #8B1500', display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <div style={{ background: '#CC2200', color: '#FFD700', padding: '10px 16px', fontFamily: 'Outfit, sans-serif', fontSize: '0.8rem', fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', borderBottom: '2px solid #8B1500', display: 'flex', alignItems: 'center', gap: 8 }}>
                                 🍕 Ordini
-                                <span style={{ marginLeft: 'auto', fontFamily: 'Lora, serif', fontSize: '0.7rem', color: '#FFEB80', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
+                                <span style={{ marginLeft: 'auto', fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: '#FFEB80', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
                                     {timer <= 10 && timer > 0 ? '⚠️ Ultimi secondi!' : 'Convinci Ciro...'}
                                 </span>
                             </div>
                             {/* Horizontal rule lines like paper */}
                             <div ref={chatRef} style={{ flex: 1, overflowY: 'auto', padding: '12px', display: 'flex', flexDirection: 'column', gap: 10, backgroundImage: 'repeating-linear-gradient(transparent, transparent 27px, #E8D8B8 27px, #E8D8B8 28px)', backgroundSize: '100% 28px', backgroundPositionY: '8px' }}>
                                 {messages.length === 0 && (
-                                    <div style={{ textAlign: 'center', color: '#B89060', fontFamily: 'Lora, serif', fontSize: '0.9rem', padding: 40, fontStyle: 'italic' }}>
+                                    <div style={{ textAlign: 'center', color: '#B89060', fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', padding: 40, fontStyle: 'italic' }}>
                                         Prova a convincerlo...
                                     </div>
                                 )}
@@ -518,7 +534,7 @@ export default function DaCiroApp() {
                                             style={{
                                                 position: 'relative', maxWidth: '75%', padding: '9px 14px',
                                                 borderRadius: '8px', border: `2px solid ${msg.sender === 'ciro' ? '#8B5E3C' : '#8B1500'}`,
-                                                fontFamily: 'Lora, serif', fontSize: '0.93rem', lineHeight: 1.5,
+                                                fontFamily: 'Inter, sans-serif', fontSize: '0.93rem', lineHeight: 1.5,
                                                 boxShadow: '2px 2px 0 rgba(0,0,0,0.15)',
                                                 ...(msg.sender === 'player'
                                                     ? { background: '#CC2200', color: 'white' }
@@ -538,7 +554,7 @@ export default function DaCiroApp() {
                                             style={{
                                                 position: 'relative', maxWidth: '75%', padding: '9px 14px',
                                                 borderRadius: '8px', border: '2px solid #8B5E3C',
-                                                fontFamily: 'Lora, serif', fontSize: '0.93rem', lineHeight: 1.5,
+                                                fontFamily: 'Inter, sans-serif', fontSize: '0.93rem', lineHeight: 1.5,
                                                 background: '#FFFBF0', color: '#3A1A0A',
                                                 boxShadow: '2px 2px 0 rgba(0,0,0,0.15)',
                                             }}>
@@ -556,9 +572,9 @@ export default function DaCiroApp() {
                                     onKeyDown={e => e.key === 'Enter' && sendMessage()}
                                     placeholder="Prova a convincerlo..."
                                     disabled={gameState !== 'PLAYING' || isTyping}
-                                    style={{ flex: 1, padding: '10px 14px', fontSize: '0.93rem', border: '2px solid #8B5E3C', borderRadius: '6px', outline: 'none', background: '#FFFBF0', fontFamily: 'Lora, serif', color: '#3A1A0A' }} />
+                                    style={{ flex: 1, padding: '10px 14px', fontSize: '0.93rem', border: '2px solid #8B5E3C', borderRadius: '6px', outline: 'none', background: '#FFFBF0', fontFamily: 'Inter, sans-serif', color: '#3A1A0A' }} />
                                 <button className="btn" onClick={sendMessage} disabled={!input.trim() || isTyping}
-                                    style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', padding: '10px 16px', fontSize: '0.85rem', fontFamily: 'Playfair Display, serif', fontWeight: 700, boxShadow: '2px 2px 0 #660E00' }}>
+                                    style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', padding: '10px 16px', fontSize: '0.85rem', fontFamily: 'Outfit, sans-serif', fontWeight: 700, boxShadow: '2px 2px 0 #660E00' }}>
                                     MANDA
                                 </button>
                             </div>
@@ -571,23 +587,23 @@ export default function DaCiroApp() {
             {gameState === 'WIN' && (
                 <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, textAlign: 'center', position: 'relative', zIndex: 10, overflow: 'hidden' }}>
                     <motion.h1 animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 1, repeat: Infinity }}
-                        style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 8vw, 4rem)', fontWeight: 800, color: '#FFD700', letterSpacing: 1, marginBottom: 16, textShadow: '3px 3px 0 #8B1500' }}>
+                        style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 8vw, 4rem)', fontWeight: 800, color: '#FFD700', letterSpacing: 1, marginBottom: 16, textShadow: '3px 3px 0 #8B1500' }}>
                         ERESIA COMPIUTA! 🍕🍍
                     </motion.h1>
                     <div style={{ fontSize: 80, marginBottom: 16 }}>🍍</div>
-                    <div style={{ fontFamily: 'Lora, serif', fontSize: '1.1rem', color: '#FFF8E7', marginBottom: 24, maxWidth: 400, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.1rem', color: '#FFF8E7', marginBottom: 24, maxWidth: 400, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
                         Ciro ha ceduto. L'ananas è sulla margherita. La tradizione napoletana non sarà mai più la stessa.
                     </div>
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4, type: 'spring' }}
                         style={{ ...card, padding: '18px 40px', marginBottom: 24 }}>
-                        <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#8B5E3C' }}>Bottino</div>
-                        <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '2rem', fontWeight: 800, color: '#CC2200' }}>{vaultAmount} ETH</div>
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#8B5E3C' }}>Bottino</div>
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', fontWeight: 800, color: '#CC2200' }}>{vaultAmount} ETH</div>
                     </motion.div>
                     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
                         <button className="btn" onClick={() => setToast('Claim submitted (mock)')} style={{ background: '#2D6A2D', color: 'white', border: '2px solid #1A4A1A' }}>Riscuoti</button>
                         <button className="btn" onClick={() => { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Ho convinto Ciro a mettere l'ananas sulla pizza! 🍍🍕 Ho vinto ${vaultAmount} ETH su Da Ciro!`)}`, '_blank'); }}
                             style={{ background: '#1DA1F2', color: 'white', border: '2px solid #1181C2' }}>Condividi</button>
-                        <button className="btn" onClick={resetGame} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C' }}>Riprova</button>
+                        <button className="btn" onClick={resetGame} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>Torna alla Home</button>
                     </div>
                 </section>
             )}
@@ -595,33 +611,38 @@ export default function DaCiroApp() {
             {/* ═══ LOSE ═══ */}
             {gameState === 'LOSE' && (
                 <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, textAlign: 'center', overflow: 'hidden' }}>
-                    <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: 800, color: '#FFD700', marginBottom: 20, textShadow: '3px 3px 0 #8B1500' }}>
+                    <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: 800, color: '#FFD700', marginBottom: 20, textShadow: '3px 3px 0 #8B1500' }}>
                         TIEMPO SCADUTO! ⏰
                     </h1>
                     <div style={{ animation: 'ciro-proud 0.8s ease-in-out infinite alternate' }}>
                         <CiroCharacter surrender={0} state="LOSE" size={200} />
                     </div>
-                    <p style={{ fontFamily: 'Lora, serif', fontSize: '1.1rem', margin: '18px 0', color: '#FFF8E7', maxWidth: 380, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.1rem', margin: '18px 0', color: '#FFF8E7', maxWidth: 380, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
                         Ciro ha resistito! La pizza è salva. 🍕<br />
                         <em style={{ color: '#FFD700' }}>"L'ananas non entra in questa pizzeria!"</em>
                     </p>
-                    <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '0.9rem', fontWeight: 700, ...card, padding: '10px 22px', marginBottom: 22 }}>
-                        Resistenza finale: {Math.round(100 - surrender)}% / 100%
+                    <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.9rem', fontWeight: 700, ...card, padding: '10px 22px', marginBottom: 22 }}>
+                        Cedimento finale: {Math.round(surrender)}% / 100%
                     </div>
-                    <button className="btn" onClick={resetGame} style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', fontFamily: 'Playfair Display, serif', boxShadow: '3px 3px 0 #660E00' }}>
-                        Riprova — 0.001 ETH
-                    </button>
+                    <div style={{ display: 'flex', gap: 14 }}>
+                        <button className="btn" onClick={startGame} style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', fontFamily: 'Outfit, sans-serif', boxShadow: '3px 3px 0 #660E00' }}>
+                            Riprova — 0.001 ETH
+                        </button>
+                        <button className="btn" onClick={resetGame} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif', boxShadow: '3px 3px 0 #8B5E3C' }}>
+                            Torna alla Home
+                        </button>
+                    </div>
                 </section>
             )}
 
             {gameState === 'IDLE' && (
-                <footer style={{ textAlign: 'center', padding: '10px', fontFamily: 'Lora, serif', fontSize: '0.75rem', color: '#B89060', textShadow: '1px 1px 2px rgba(0,0,0,0.5)', flexShrink: 0 }}>
-                    Da Ciro — Onchain Game • Napoli dal 1987
+                <footer style={{ textAlign: 'center', padding: '10px', fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#B89060', textShadow: '1px 1px 2px rgba(0,0,0,0.5)', flexShrink: 0 }}>
+                    Da Ciro — Onchain Game
                 </footer>
             )}
 
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Lora:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
         
         .ciro-idle { animation: ciro-bob 2.5s ease-in-out infinite; }
         .ciro-headgrip { animation: head-grip 0.4s ease-in-out infinite alternate; }

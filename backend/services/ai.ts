@@ -55,26 +55,33 @@ function toAnthropicMessages(messages: Message[]): Anthropic.MessageParam[] {
 }
 
 export async function judgeSurrender(messages: Message[]) {
-    console.log("6a. INSIDE judgeSurrender, starting create...");
-    let response;
-    try {
-        response = await client.messages.create({
-            model: "claude-haiku-4-5-20251001",
-            max_tokens: 60,
-            system: JUDGE_PROMPT,
-            messages: toAnthropicMessages(messages),
-        });
-        console.log("6b. judgeSurrender API response received");
-    } catch (e) {
-        console.log("6c. API ERROR in judgeSurrender:", e);
-        throw e;
-    }
+    // costruiamo la conversazione come testo da analizzare
+    const conversation = messages
+        .map(m => `${m.role === "player" ? "GIOCATORE" : "CIRO"}: ${m.text}`)
+        .join("\n");
+
+    const response = await client.messages.create({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 60,
+        system: JUDGE_PROMPT,
+        messages: [
+            {
+                role: "user",
+                content: `Analizza questa conversazione e restituisci il JSON:\n\n${conversation}`
+            }
+        ],
+    });
 
     const textBlock = response.content[0];
     if (textBlock.type === "text") {
         try {
+            const match = textBlock.text.match(/\{[\s\S]*?\}/);
+            if (match) {
+                return JSON.parse(match[0]);
+            }
             return JSON.parse(textBlock.text);
         } catch (e) {
+            console.error("JSON parse error on:", textBlock.text);
             return { surrender: 0, reason: "Error parsing JSON" };
         }
     }

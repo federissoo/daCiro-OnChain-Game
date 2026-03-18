@@ -47,7 +47,7 @@ export function deleteSession(sessionId: string): void {
 export function isExpired(session: Session): boolean {
     const now = Date.now();
     const sessionDuration = now - session.startedAt.getTime();
-    return sessionDuration > 1000 * 60;
+    return sessionDuration > 1000 * 90;
 }
 
 export function isSurrendered(session: Session): boolean {

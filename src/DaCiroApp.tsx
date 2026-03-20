@@ -12,11 +12,74 @@ interface ChatMessage {
     id: number;
 }
 
-const WELCOME_LINES = [
-    "Benvenuto da Ciro! Cosa vuoi? E non mi parlare di ananas, per carità di Dio!",
-    "Jamme, cosa ordini? La margherita è la più bella del mondo. E non azzardarti a chiedere l'ananas!",
-    "Madonna mia, un altro cliente! Speriamo che non sia uno di quelli che vuole rovinare la pizza...",
-];
+const TRANSLATIONS = {
+    it: {
+        welcome: [
+            "Benvenuto da Ciro! Cosa vuoi? E non mi parlare di ananas, per carità di Dio!",
+            "Jamme, cosa ordini? La margherita è la più bella del mondo. E non azzardarti a chiedere l'ananas!",
+            "Madonna mia, un altro cliente! Speriamo che non sia uno di quelli che vuole rovinare la pizza...",
+        ],
+        subtitle: "Convincilo a mettere l'ananas sulla pizza. Se ci riesci, vinci tutto.",
+        vaultTitle: "Tesoro del Vault",
+        connectBtn: "Connect Wallet",
+        enterBtn: "Entra da Ciro — 0.001 ETH",
+        enteringBtn: "Entrando...",
+        surrenderLevel: "Livello di Cedimento",
+        ordersTitle: "🍕 Ordini",
+        lastSeconds: "⚠️ Ultimi secondi!",
+        convinceHim: "Convinci Ciro...",
+        tryToConvince: "Prova a convincerlo...",
+        waitMessage: "Prova a convincerlo...",
+        sendBtn: "MANDA",
+        heresyTitle: "ERESIA COMPIUTA! 🍕🍍",
+        cavedDesc: "Ciro ha ceduto. L'ananas è sulla margherita. La tradizione napoletana non sarà mai più la stessa.",
+        loot: "Bottino",
+        claimBtn: "Riscuoti",
+        shareBtn: "Condividi",
+        homeBtn: "Torna alla Home",
+        timeUp: "TEMPO SCADUTO! ⏰",
+        resistedDesc1: "Ciro ha resistito! La pizza è salva. 🍕",
+        resistedDesc2: "\"L'ananas non entra in questa pizzeria!\"",
+        finalSurrender: "Cedimento finale:",
+        retryBtn: "Riprova — 0.001 ETH",
+        errConnectWallet: "Connetti il wallet prima",
+        errServer: "Errore di connessione al server.",
+        tweet: "Ho convinto Ciro a mettere l'ananas sulla pizza! 🍍🍕 Ho vinto"
+    },
+    en: {
+        welcome: [
+            "Welcome to Ciro's! What do you want? And don't mention pineapple, for the love of God!",
+            "Come on, what are you ordering? The margherita is the best in the world. Don't you dare ask for pineapple!",
+            "Mamma mia, another customer! Let's hope it's not one who wants to ruin pizza...",
+        ],
+        subtitle: "Convince him to put pineapple on pizza. If you succeed, you win everything.",
+        vaultTitle: "Vault Treasure",
+        connectBtn: "Connect Wallet",
+        enterBtn: "Enter Ciro's — 0.001 ETH",
+        enteringBtn: "Entering...",
+        surrenderLevel: "Surrender Level",
+        ordersTitle: "🍕 Orders",
+        lastSeconds: "⚠️ Last seconds!",
+        convinceHim: "Convince Ciro...",
+        tryToConvince: "Try to convince him...",
+        waitMessage: "Try to convince him...",
+        sendBtn: "SEND",
+        heresyTitle: "HERESY ACCOMPLISHED! 🍕🍍",
+        cavedDesc: "Ciro caved. Pineapple is on the margherita. Neapolitan tradition will never be the same.",
+        loot: "Loot",
+        claimBtn: "Claim",
+        shareBtn: "Share",
+        homeBtn: "Back to Home",
+        timeUp: "TIME'S UP! ⏰",
+        resistedDesc1: "Ciro resisted! The pizza is safe. 🍕",
+        resistedDesc2: "\"Pineapple does not enter this pizzeria!\"",
+        finalSurrender: "Final surrender:",
+        retryBtn: "Try Again — 0.001 ETH",
+        errConnectWallet: "Connect wallet first",
+        errServer: "Connection error to the server.",
+        tweet: "I convinced Ciro to put pineapple on pizza! 🍍🍕 I won"
+    }
+};
 
 /* ═══════════════════════════════════════════════════
    CIRO CHARACTER SVG
@@ -171,12 +234,12 @@ function CiroCharacter({ surrender, state, size = 200 }: { surrender: number; st
 /* ═══════════════════════════════════════════════════
    SURRENDER BAR (reversed – green = stubborn, red = caving)
    ═══════════════════════════════════════════════════ */
-function SurrenderBar({ value }: { value: number }) {
+function SurrenderBar({ value, label = "Livello di Cedimento" }: { value: number; label?: string }) {
     const color = value < 25 ? '#2D6A2D' : value < 50 ? '#B8860B' : value < 75 ? '#CC6600' : '#CC2200';
     return (
         <div style={{ width: '100%' }}>
             <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.72rem', fontWeight: 700, marginBottom: 5, textAlign: 'center', letterSpacing: 1.2, textTransform: 'uppercase', color: '#6B3A2A' }}>
-                Livello di Cedimento — {Math.round(value)}%
+                {label} — {Math.round(value)}%
             </div>
             <div style={{ width: '100%', height: 20, background: '#EEE0C8', border: '2px solid #8B5E3C', borderRadius: 10, overflow: 'hidden', boxShadow: '2px 2px 0 #8B5E3C' }}>
                 {/* bar fills left = resistance; red overlay from right = surrender progress */}
@@ -250,6 +313,8 @@ function Toast({ message, onClose }: { message: string; onClose: () => void }) {
    MAIN APP
    ═══════════════════════════════════════════════════ */
 export default function DaCiroApp() {
+    const [lang, setLang] = useState<'it' | 'en'>('it');
+    const t = TRANSLATIONS[lang];
     const [gameState, setGameState] = useState<GameState>('IDLE');
     const [wallet, setWallet] = useState<string | null>(null);
     const [surrender, setSurrender] = useState(0);
@@ -298,14 +363,14 @@ export default function DaCiroApp() {
     const connectWallet = useCallback(() => setWallet('0xA1B2...C3D4'), []);
 
     const startGame = useCallback(async () => {
-        if (!wallet) { setToast("Connetti il wallet prima"); return; }
+        if (!wallet) { setToast(t.errConnectWallet); return; }
         setGameState('PAYING');
 
         try {
             const res = await fetch("/session/start", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ playerName: wallet })
+                body: JSON.stringify({ playerName: wallet, lang })
             });
             const data = await res.json();
             setSessionId(data.sessionId);
@@ -344,7 +409,7 @@ export default function DaCiroApp() {
             };
 
             // Show Ciro's welcome message
-            const welcomeMsg = WELCOME_LINES[Math.floor(Math.random() * WELCOME_LINES.length)];
+            const welcomeMsg = t.welcome[Math.floor(Math.random() * t.welcome.length)];
 
             setTimeout(() => {
                 setGameState('PLAYING');
@@ -358,10 +423,10 @@ export default function DaCiroApp() {
 
         } catch (error) {
             console.error("Error starting session:", error);
-            setToast("Errore di connessione al server.");
+            setToast(t.errServer);
             setGameState('IDLE');
         }
-    }, [wallet]);
+    }, [wallet, lang, t]);
 
     const sendMessage = useCallback(() => {
         if (!input.trim() || gameState !== 'PLAYING' || isTyping || !wsRef.current) return;
@@ -414,6 +479,10 @@ export default function DaCiroApp() {
             display: 'flex',
             flexDirection: 'column',
         }}>
+            <div style={{ position: 'absolute', top: 20, right: 20, display: 'flex', gap: 10, zIndex: 100 }}>
+                <button onClick={() => setLang('it')} style={{ cursor: 'pointer', background: 'transparent', border: 'none', fontSize: 24, opacity: lang === 'it' ? 1 : 0.5, filter: lang === 'it' ? 'none' : 'grayscale(100%)', transition: '0.2s' }}>🇮🇹</button>
+                <button onClick={() => setLang('en')} style={{ cursor: 'pointer', background: 'transparent', border: 'none', fontSize: 24, opacity: lang === 'en' ? 1 : 0.5, filter: lang === 'en' ? 'none' : 'grayscale(100%)', transition: '0.2s' }}>🇬🇧</button>
+            </div>
             <AnimatePresence>{toast && <Toast message={toast} onClose={() => setToast(null)} />}</AnimatePresence>
             {gameState === 'WIN' && <Confetti />}
 
@@ -439,7 +508,7 @@ export default function DaCiroApp() {
                     </div>
 
                     <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.05rem', color: '#FFF8E7', marginBottom: 32, fontWeight: 100, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                        Convincilo a mettere l'ananas sulla pizza. Se ci riesci, vinci tutto.
+                        {t.subtitle}
                     </p>
 
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
@@ -449,7 +518,7 @@ export default function DaCiroApp() {
                     {/* Vault */}
                     <div style={{ ...card, display: 'inline-block', padding: '10px 28px', marginBottom: 16 }}>
                         <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#8B5E3C', marginBottom: 4 }}>
-                            Tesoro del Vault
+                            {t.vaultTitle}
                         </div>
                         <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '1.8rem', fontWeight: 800, color: '#CC2200' }}>
                             {vaultAmount} ETH
@@ -459,7 +528,7 @@ export default function DaCiroApp() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
                         {!wallet ? (
                             <button className="btn" onClick={connectWallet} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>
-                                Connect Wallet
+                                {t.connectBtn}
                             </button>
                         ) : (
                             <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 500, color: '#2D6A2D', ...card, padding: '8px 18px' }}>
@@ -469,8 +538,8 @@ export default function DaCiroApp() {
                         <button className="btn" onClick={startGame} disabled={gameState === 'PAYING'}
                             style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', fontFamily: 'Outfit, sans-serif', boxShadow: '3px 3px 0 #660E00' }}>
                             {gameState === 'PAYING' ? (
-                                <><div style={{ width: 18, height: 18, border: '2px solid #FFD700', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spinner 0.6s linear infinite' }} /> Entrando...</>
-                            ) : 'Entra da Ciro — 0.001 ETH'}
+                                <><div style={{ width: 18, height: 18, border: '2px solid #FFD700', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spinner 0.6s linear infinite' }} /> {t.enteringBtn}</>
+                            ) : t.enterBtn}
                         </button>
                     </div>
                 </section>
@@ -502,26 +571,26 @@ export default function DaCiroApp() {
                         {/* Ciro panel */}
                         <div style={{ flex: '0 0 220px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, ...card, padding: '14px 12px', alignSelf: 'flex-start' }}>
                             <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#8B5E3C', letterSpacing: 1.5, textTransform: 'uppercase' }}>
-                                🍕 Da Ciro
+                                Ciro
                             </div>
                             <CiroCharacter surrender={surrender} state={gameState} size={180} />
-                            <SurrenderBar value={surrender} />
+                            <SurrenderBar value={surrender} label={t.surrenderLevel} />
                         </div>
 
                         {/* Chat panel – looks like an order pad */}
                         <div style={{ flex: 1, minWidth: 280, display: 'flex', flexDirection: 'column', background: '#FFFBF0', border: '2px solid #8B5E3C', borderRadius: '8px', boxShadow: '4px 4px 0 #8B3A2A', overflow: 'hidden' }}>
                             {/* Chat header */}
                             <div style={{ background: '#CC2200', color: '#FFD700', padding: '10px 16px', fontFamily: 'Outfit, sans-serif', fontSize: '0.8rem', fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', borderBottom: '2px solid #8B1500', display: 'flex', alignItems: 'center', gap: 8 }}>
-                                🍕 Ordini
+                                {t.ordersTitle}
                                 <span style={{ marginLeft: 'auto', fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: '#FFEB80', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
-                                    {timer <= 10 && timer > 0 ? '⚠️ Ultimi secondi!' : 'Convinci Ciro...'}
+                                    {timer <= 10 && timer > 0 ? t.lastSeconds : t.convinceHim}
                                 </span>
                             </div>
                             {/* Horizontal rule lines like paper */}
                             <div ref={chatRef} style={{ flex: 1, overflowY: 'auto', padding: '12px', display: 'flex', flexDirection: 'column', gap: 10, backgroundImage: 'repeating-linear-gradient(transparent, transparent 27px, #E8D8B8 27px, #E8D8B8 28px)', backgroundSize: '100% 28px', backgroundPositionY: '8px' }}>
                                 {messages.length === 0 && (
                                     <div style={{ textAlign: 'center', color: '#B89060', fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', padding: 40, fontStyle: 'italic' }}>
-                                        Prova a convincerlo...
+                                        {t.tryToConvince}
                                     </div>
                                 )}
                                 {messages.map(msg => (
@@ -570,12 +639,12 @@ export default function DaCiroApp() {
                             <div style={{ display: 'flex', gap: 8, padding: '10px 12px', borderTop: '2px solid #8B5E3C', background: '#FFF3D0' }}>
                                 <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)}
                                     onKeyDown={e => e.key === 'Enter' && sendMessage()}
-                                    placeholder="Prova a convincerlo..."
+                                    placeholder={t.waitMessage}
                                     disabled={gameState !== 'PLAYING' || isTyping}
                                     style={{ flex: 1, padding: '10px 14px', fontSize: '0.93rem', border: '2px solid #8B5E3C', borderRadius: '6px', outline: 'none', background: '#FFFBF0', fontFamily: 'Inter, sans-serif', color: '#3A1A0A' }} />
                                 <button className="btn" onClick={sendMessage} disabled={!input.trim() || isTyping}
                                     style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', padding: '10px 16px', fontSize: '0.85rem', fontFamily: 'Outfit, sans-serif', fontWeight: 700, boxShadow: '2px 2px 0 #660E00' }}>
-                                    MANDA
+                                    {t.sendBtn}
                                 </button>
                             </div>
                         </div>
@@ -588,22 +657,22 @@ export default function DaCiroApp() {
                 <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, textAlign: 'center', position: 'relative', zIndex: 10, overflow: 'hidden' }}>
                     <motion.h1 animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 1, repeat: Infinity }}
                         style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 8vw, 4rem)', fontWeight: 800, color: '#FFD700', letterSpacing: 1, marginBottom: 16, textShadow: '3px 3px 0 #8B1500' }}>
-                        ERESIA COMPIUTA! 🍕🍍
+                        {t.heresyTitle}
                     </motion.h1>
                     <div style={{ fontSize: 80, marginBottom: 16 }}>🍍</div>
                     <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.1rem', color: '#FFF8E7', marginBottom: 24, maxWidth: 400, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                        Ciro ha ceduto. L'ananas è sulla margherita. La tradizione napoletana non sarà mai più la stessa.
+                        {t.cavedDesc}
                     </div>
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4, type: 'spring' }}
                         style={{ ...card, padding: '18px 40px', marginBottom: 24 }}>
-                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#8B5E3C' }}>Bottino</div>
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#8B5E3C' }}>{t.loot}</div>
                         <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', fontWeight: 800, color: '#CC2200' }}>{vaultAmount} ETH</div>
                     </motion.div>
                     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
-                        <button className="btn" onClick={() => setToast('Claim submitted (mock)')} style={{ background: '#2D6A2D', color: 'white', border: '2px solid #1A4A1A' }}>Riscuoti</button>
-                        <button className="btn" onClick={() => { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Ho convinto Ciro a mettere l'ananas sulla pizza! 🍍🍕 Ho vinto ${vaultAmount} ETH su Da Ciro!`)}`, '_blank'); }}
-                            style={{ background: '#1DA1F2', color: 'white', border: '2px solid #1181C2' }}>Condividi</button>
-                        <button className="btn" onClick={resetGame} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>Torna alla Home</button>
+                        <button className="btn" onClick={() => setToast('Claim submitted (mock)')} style={{ background: '#2D6A2D', color: 'white', border: '2px solid #1A4A1A' }}>{t.claimBtn}</button>
+                        <button className="btn" onClick={() => { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${t.tweet} ${vaultAmount} ETH!`)}`, '_blank'); }}
+                            style={{ background: '#1DA1F2', color: 'white', border: '2px solid #1181C2' }}>{t.shareBtn}</button>
+                        <button className="btn" onClick={resetGame} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>{t.homeBtn}</button>
                     </div>
                 </section>
             )}
@@ -612,24 +681,24 @@ export default function DaCiroApp() {
             {gameState === 'LOSE' && (
                 <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, textAlign: 'center', overflow: 'hidden' }}>
                     <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: 800, color: '#FFD700', marginBottom: 20, textShadow: '3px 3px 0 #8B1500' }}>
-                        TIEMPO SCADUTO! ⏰
+                        {t.timeUp}
                     </h1>
                     <div style={{ animation: 'ciro-proud 0.8s ease-in-out infinite alternate' }}>
                         <CiroCharacter surrender={0} state="LOSE" size={200} />
                     </div>
                     <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.1rem', margin: '18px 0', color: '#FFF8E7', maxWidth: 380, lineHeight: 1.6, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                        Ciro ha resistito! La pizza è salva. 🍕<br />
-                        <em style={{ color: '#FFD700' }}>"L'ananas non entra in questa pizzeria!"</em>
+                        {t.resistedDesc1}<br />
+                        <em style={{ color: '#FFD700' }}>{t.resistedDesc2}</em>
                     </p>
                     <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.9rem', fontWeight: 700, ...card, padding: '10px 22px', marginBottom: 22 }}>
-                        Cedimento finale: {Math.round(surrender)}% / 100%
+                        {t.finalSurrender} {Math.round(surrender)}% / 100%
                     </div>
                     <div style={{ display: 'flex', gap: 14 }}>
                         <button className="btn" onClick={startGame} style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', fontFamily: 'Outfit, sans-serif', boxShadow: '3px 3px 0 #660E00' }}>
-                            Riprova — 0.001 ETH
+                            {t.retryBtn}
                         </button>
                         <button className="btn" onClick={resetGame} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif', boxShadow: '3px 3px 0 #8B5E3C' }}>
-                            Torna alla Home
+                            {t.homeBtn}
                         </button>
                     </div>
                 </section>

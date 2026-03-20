@@ -52,7 +52,7 @@ sessionWss.on("connection", (ws, req) => {
 
     try {
       console.log("4. Calling streamCiroResponse...");
-      const responseText = await streamCiroResponse(messages, (token) => {
+      const responseText = await streamCiroResponse(messages, session.lang, (token) => {
         ws.send(JSON.stringify({ type: "TOKEN", text: token }));
       });
       console.log("5. streamCiroResponse finished, text length:", responseText.length);
@@ -61,7 +61,7 @@ sessionWss.on("connection", (ws, req) => {
       updateSession(sessionId, { messages: updatedMessages });
       console.log("6. Session updated with bot message, calling judgeSurrender...");
 
-      const judgment = await judgeSurrender(updatedMessages);
+      const judgment = await judgeSurrender(updatedMessages, session.lang);
       console.log("Judgment:", judgment);
       console.log("Surrender score:", judgment.surrender);
 
@@ -90,7 +90,8 @@ sessionWss.on("connection", (ws, req) => {
 
     } catch (error) {
       console.error("Error during message processing:", error);
-      ws.send(JSON.stringify({ type: "ERROR", message: "Errore durante l'elaborazione" }));
+      const errorMessage = session?.lang === 'en' ? "Error during processing" : "Errore durante l'elaborazione";
+      ws.send(JSON.stringify({ type: "ERROR", message: errorMessage }));
     }
   });
 

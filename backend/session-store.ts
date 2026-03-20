@@ -6,6 +6,7 @@ export type Message = {
 export type Session = {
     sessionId: string,
     playerName: string,
+    lang: 'it' | 'en',
     surrenderScore: number,
     surrenderHistory: number[],
     messages: Message[],
@@ -15,10 +16,11 @@ export type Session = {
 
 const sessions: Map<string, Session> = new Map();
 
-export function createSession(playerName: string): Session {
+export function createSession(playerName: string, lang: 'it' | 'en' = 'it'): Session {
     const session: Session = {
         sessionId: crypto.randomUUID(),
         playerName,
+        lang,
         surrenderScore: 0,
         surrenderHistory: [],
         messages: [],

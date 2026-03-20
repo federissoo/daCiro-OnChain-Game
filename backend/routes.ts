@@ -1,16 +1,19 @@
-import { createSession, updateSession } from "./session-store";
+import { createSession, updateSession, getSession } from "./session-store";
 import { Router } from "express";
 
 export const router = Router();
 
 router.post("/session/start", (req, res) => {
-    const session = createSession(req.body.playerName);
+    const lang = req.body.lang === 'en' ? 'en' : 'it'; // Default a 'it' se non fornito o non valido
+    const session = createSession(req.body.playerName, lang);
     res.json({ sessionId: session.sessionId });
 });
 
 router.post("/session/winner", (req, res) => {
+    const session = getSession(req.body.sessionId);
     updateSession(req.body.sessionId, { status: "won" });
-    res.json({ message: "Hai vinto!" });
+    const message = session?.lang === 'en' ? "You won!" : "Hai vinto!";
+    res.json({ message });
 });
 
 router.use((req, res) => {

@@ -1,8 +1,4 @@
-/* 
-    test_startSession — paga la fee corretta, verifica che vaultBalance aumenti
-    test_claimVault — simula una firma valida del signer e verifica che il vault venga pagato
-    test_replayAttack — chiama claimVault due volte con la stessa firma, verifica che la seconda fallisca 
-*/
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
 import "forge-std/Test.sol";
@@ -47,6 +43,7 @@ contract SimpleVaultTest is Test {
 
     function test_claimVault() public {
         vault.startSession{value: 0.00001 ether}();
+        vm.prank(user);
         vault.claimVault(sessionId, signature);
         assertEq(vault.vaultBalance(), 0);
     }
@@ -54,7 +51,9 @@ contract SimpleVaultTest is Test {
     function test_replayAttack() public {
         // chiama claimVault due volte con la stessa firma, verifica che la seconda fallisca
         vault.startSession{value: 0.00001 ether}();
+        vm.prank(user);
         vault.claimVault(sessionId, signature);
+        vm.prank(user);
         vm.expectRevert();
         vault.claimVault(sessionId, signature);
     }

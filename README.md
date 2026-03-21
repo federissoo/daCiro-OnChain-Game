@@ -19,38 +19,10 @@ The harder it is to convince him, the bigger the vault grows.
 
 ---
 
-## Architecture
-
-```
-├── backend/           # Node.js + WebSocket server
-│   ├── prompts/       # AI Prompts (it.ts, en.ts) - Internationalization
-│   ├── services/      # AI services
-│   │   ├── ai.ts      # Claude API logic (Ciro + Judge)
-│   │   └── logger.ts  # Session token logging
-│   ├── index.ts       # Entry point
-│   ├── routes.ts      # HTTP routes
-│   ├── session-store.ts # Session management
-│   ├── session-logs.txt # Token usage logs
-│   └── websockets.ts  # Real-time game logic
-├── contracts/         # Solidity smart contracts (Foundry)
-│   ├── src/
-│   │   └── SimpleVault.sol # Vault with dynamic fee + signature claim
-│   └── test/          # Foundry tests
-├── src/               # Frontend (React + Vite)
-│   ├── main.tsx       # Entry point
-│   ├── DaCiroApp.tsx  # Main Application
-│   └── index.css      # Styles
-├── package.json       # Frontend dependencies (root)
-├── vite.config.ts     # Vite config
-└── index.html         # HTML entry point (root)
-```
-
----
-
 ## AI model strategy
 
 **Testnet & Local Development:**
-To keep costs low during testing and development, the game runs on **Claude 3 Haiku** for both agents when not in production environment (`NODE_ENV=development`).
+To keep costs low during testing and development, the game runs on **Claude 3 Haiku** for both agents when not in production environment.
 
 **Production:**
 The project launches with **Claude Haiku 4.5 for both Ciro and the Judge** — 
@@ -58,9 +30,8 @@ profitable from the second fee tier (vault > 0.01 ETH). The first tier
 operates at a small loss by design, keeping the entry barrier as low as 
 possible to maximize early player volume.
 
-Once the vault reaches **0.1 ETH**, Ciro is **manually upgraded** (via config) to 
-**Claude Sonnet 4.6**, making him significantly more creative and harder 
-to beat as the stakes grow. The Judge always runs on Haiku regardless of 
+Once the vault reaches **0.1 ETH**, Ciro is **manually upgraded** to 
+**Claude Sonnet 4.6**, making him significantly more creative. The Judge always runs on Haiku regardless of 
 vault size — its task (returning a structured JSON score) does not benefit 
 meaningfully from a more capable model.
 
@@ -106,6 +77,34 @@ prize and attracting more players), 30% covers operational costs
 | < 0.75 ETH | $6.25 | $1.875 | $0.015 | **+$1.860** | $0.045 | **+$1.830** |
 | < 1 ETH | $12.50 | $3.75 | $0.015 | **+$3.735** | $0.045 | **+$3.705** |
 | ≥ 1 ETH | $25 | $7.50 | $0.015 | **+$7.485** | $0.045 | **+$7.455** |
+
+---
+
+## Architecture
+
+```
+├── backend/           # Node.js + WebSocket server
+│   ├── prompts/       # AI Prompts (it.ts, en.ts) - Internationalization
+│   ├── services/      # AI services
+│   │   ├── ai.ts      # Claude API logic (Ciro + Judge)
+│   │   └── logger.ts  # Session token logging
+│   ├── index.ts       # Entry point
+│   ├── routes.ts      # HTTP routes
+│   ├── session-store.ts # Session management
+│   ├── session-logs.txt # Token usage logs
+│   └── websockets.ts  # Real-time game logic
+├── contracts/         # Solidity smart contracts (Foundry)
+│   ├── src/
+│   │   └── SimpleVault.sol # Vault with dynamic fee + signature claim
+│   └── test/          # Foundry tests
+├── src/               # Frontend (React + Vite)
+│   ├── main.tsx       # Entry point
+│   ├── DaCiroApp.tsx  # Main Application
+│   └── index.css      # Styles
+├── package.json       # Frontend dependencies (root)
+├── vite.config.ts     # Vite config
+└── index.html         # HTML entry point (root)
+```
 
 ---
 
@@ -179,14 +178,29 @@ npm run dev
 
 ## Environment Variables
 
+The project uses two separate environment files to separate concerns between the backend and the smart contracts.
+
+### 1. Backend / Root (`.env`)
 ```bash
-# backend/.env
-ANTHROPIC_API_KEY=sk-ant-...
-SIGNER_PRIVATE_KEY=0x...
-CONTRACT_ADDRESS=0x...
-BASE_RPC_URL=https://mainnet.base.org
-PORT=3001
-FRONTEND_URL=http://localhost:5173
+ANTHROPIC_API_KEY=sk-ant-...     # API key for Claude 
+NODE_ENV=development             # 'development' or 'production'
+PORT=3000                        # Backend server port
+FRONTEND_URL=http://localhost:5173 
+
+# Note: The following are required by the backend to sign claims
+SIGNER_PRIVATE_KEY=0x...         # MUST match the contracts signer
+CONTRACT_ADDRESS=0x...           # The deployed SimpleVault address
+```
+
+### 2. Smart Contracts (`contracts/.env`)
+```bash
+PRIVATE_KEY=0x...                # Deployer private key
+ADDRESS=0x...                    # Deployer public address 
+CONTRACT_ADDRESS=0x...           # Deployed vault address
+BASE_RPC_URL=https://...         # L2 RPC URL
+BASESCAN_API_KEY=...             # For contract verification on BaseScan
+SIGNER_PRIVATE_KEY=0x...         # For generating signatures during testing
+SIGNER_ADDRESS=0x...
 ```
 
 ---

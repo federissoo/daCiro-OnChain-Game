@@ -47,8 +47,12 @@ The harder it is to convince him, the bigger the vault grows.
 
 ---
 
-**AI model strategy:**
+## AI model strategy
 
+**Testnet & Local Development:**
+To keep costs low during testing and development, the game runs on **Claude 3 Haiku** for both agents when not in production environment (`NODE_ENV=development`).
+
+**Production:**
 The project launches with **Claude Haiku 4.5 for both Ciro and the Judge** — 
 profitable from the second fee tier (vault > 0.01 ETH). The first tier 
 operates at a small loss by design, keeping the entry barrier as low as 
@@ -62,6 +66,8 @@ meaningfully from a more capable model.
 
 Token usage estimates are based on real gameplay sessions and logged 
 per-session to `session-logs.txt` for ongoing calibration.
+
+---
 
 ## Economics & Sustainability
 
@@ -115,14 +121,7 @@ Deployed on **Base** (L2).
 | `donate()` | Anyone can add ETH to the vault |
 
 **Dynamic fee tiers:**
-
-| Vault Size | Session Fee |
-|---|---|
-| < 0.1 ETH | 0.00001 ETH |
-| < 0.5 ETH | 0.0001 ETH |
-| < 1 ETH | 0.001 ETH |
-| < 5 ETH | 0.01 ETH |
-| ≥ 5 ETH | 0.05 ETH |
+*(Fee tiers are based on vault size. See the "Economics & Sustainability" section for detailed scaling.)*
 
 ---
 

@@ -57,6 +57,34 @@ contract SimpleVaultTest is Test {
         vm.expectRevert();
         vault.claimVault(sessionId, signature);
     }
+    function test_dynamicFees() public {
+        assertEq(vault.getCurrentFee(), 0.00001 ether);
+        
+        vm.deal(user, 10 ether);
+        vm.prank(user);
+        vault.donate{value: 0.01 ether}();
+        assertEq(vault.getCurrentFee(), 0.00005 ether);
+
+        vm.prank(user);
+        vault.donate{value: 0.04 ether}(); // 0.05 total
+        assertEq(vault.getCurrentFee(), 0.0001 ether);
+
+        vm.prank(user);
+        vault.donate{value: 0.05 ether}(); // 0.1 total
+        assertEq(vault.getCurrentFee(), 0.001 ether);
+
+        vm.prank(user);
+        vault.donate{value: 0.4 ether}(); // 0.5 total
+        assertEq(vault.getCurrentFee(), 0.0025 ether);
+
+        vm.prank(user);
+        vault.donate{value: 0.25 ether}(); // 0.75 total
+        assertEq(vault.getCurrentFee(), 0.005 ether);
+
+        vm.prank(user);
+        vault.donate{value: 0.25 ether}(); // 1.0 total
+        assertEq(vault.getCurrentFee(), 0.01 ether);
+    }
 
     receive() external payable {}
 }

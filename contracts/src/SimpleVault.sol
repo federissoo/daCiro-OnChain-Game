@@ -71,16 +71,20 @@ contract SimpleVault is Ownable {
     }
 
     function getCurrentFee() public view returns (uint256) {
-        if (vaultBalance < 0.1 ether) {
+        if (vaultBalance < 0.01 ether) {
             return 0.00001 ether;
-        } else if (vaultBalance < 0.5 ether) {
+        } else if (vaultBalance < 0.05 ether) {
+            return 0.00005 ether;
+        } else if (vaultBalance < 0.1 ether) {
             return 0.0001 ether;
-        } else if (vaultBalance < 1 ether) {
+        } else if (vaultBalance < 0.5 ether) {
             return 0.001 ether;
-        } else if (vaultBalance < 5 ether) {
-            return 0.01 ether;
+        } else if (vaultBalance < 0.75 ether) {
+            return 0.0025 ether;
+        } else if (vaultBalance < 1 ether) {
+            return 0.005 ether;
         } else {
-            return 0.05 ether;
+            return 0.01 ether;
         }
     }
 

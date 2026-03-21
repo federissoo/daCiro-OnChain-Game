@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/ciro.png" width="250" alt="Ciro Esposito">
+</p>
+
 # 🍕 Da Ciro — Convince the Pizzaiolo, Win ETH
 
 > *"You want pineapple on my pizza?! JAMME, VATTENNE! I am the king of the oven, and you come here with this... this heresy?"*

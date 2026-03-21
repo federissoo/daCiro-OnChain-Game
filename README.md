@@ -11,7 +11,7 @@ on his sacred margherita. If you break his resistance, you win the vault.
 ## How It Works
 
 1. **Pay the session fee** to start (fee scales dynamically with vault size)
-2. **Chat with Ciro** — he will mock you, laugh at you, and call you ignorant in both **Italian** and **English**
+2. **Chat with Ciro** — he will mock you and laugh at you
 3. **Convince him** using creative arguments, cultural references, or pure persistence
 4. **Win the vault** when his surrender score reaches 100
 
@@ -24,10 +24,13 @@ The harder it is to convince him, the bigger the vault grows.
 ```
 ├── backend/           # Node.js + WebSocket server
 │   ├── prompts/       # AI Prompts (it.ts, en.ts) - Internationalization
-│   ├── services/      # AI services (Claude API — Ciro + Judge agents)
+│   ├── services/      # AI services
+│   │   ├── ai.ts      # Claude API logic (Ciro + Judge)
+│   │   └── logger.ts  # Session token logging
 │   ├── index.ts       # Entry point
 │   ├── routes.ts      # HTTP routes
 │   ├── session-store.ts # Session management
+│   ├── session-logs.txt # Token usage logs
 │   └── websockets.ts  # Real-time game logic
 ├── contracts/         # Solidity smart contracts (Foundry)
 │   ├── src/
@@ -44,18 +47,59 @@ The harder it is to convince him, the bigger the vault grows.
 
 ---
 
-## Dual AI Architecture
+**AI model strategy:**
 
-The game uses two separate Claude agents:
+The project launches with **Claude Haiku 4.5 for both Ciro and the Judge** — 
+profitable from the second fee tier (vault > 0.01 ETH). The first tier 
+operates at a small loss by design, keeping the entry barrier as low as 
+possible to maximize early player volume.
 
-**Ciro (claude-3-5-sonnet)** — Plays the arrogant, boastful pizzaiolo. He mocks the player, speaks with a strong Neapolitan attitude, and never gives in easily. Now supports multiple languages.
+Once the vault reaches **0.1 ETH**, Ciro is **manually upgraded** (via config) to 
+**Claude Sonnet 4.6**, making him significantly more creative and harder 
+to beat as the stakes grow. The Judge always runs on Haiku regardless of 
+vault size — its task (returning a structured JSON score) does not benefit 
+meaningfully from a more capable model.
 
-**The Judge (claude-3-5-haiku)** — Cold and precise. Reads the full 
-conversation and returns a surrender score `0-100` based on how close 
-Ciro is to accepting pineapple. The player never interacts with the Judge directly.
+Token usage estimates are based on real gameplay sessions and logged 
+per-session to `session-logs.txt` for ongoing calibration.
 
-This separation prevents prompt injection attacks — the Judge cannot 
-be manipulated by the player's messages.
+## Economics & Sustainability
+
+Da Ciro uses a dynamic session fee that scales automatically with the 
+vault size. Fees are split 70/30 — 70% grows the vault (increasing the 
+prize and attracting more players), 30% covers operational costs 
+(primarily Claude API calls).
+
+**Fee tiers:**
+
+| Vault Size | Session Fee (~USD) |
+|---|---|
+| < 0.01 ETH | ~$0.025 |
+| < 0.05 ETH | ~$0.125 |
+| < 0.1 ETH  | ~$0.25  |
+| < 0.5 ETH  | ~$2.50  |
+| < 0.75 ETH | ~$6.25  |
+| < 1 ETH    | ~$12.50 |
+| ≥ 1 ETH    | ~$25    |
+
+**API cost per session** (~10,000 input tokens / ~1,000 output tokens):
+
+| Setup | Input | Output | Total |
+|---|---|---|---|
+| Haiku 4.5 + Haiku 4.5 | $0.010 | $0.005 | **$0.015** |
+| Haiku 4.5 + Sonnet 4.6 | $0.030 | $0.015 | **$0.045** |
+
+**Profitability by tier:**
+
+| Vault | Fee | Dev 30% | Haiku+Haiku | Margin | Haiku+Sonnet | Margin |
+|---|---|---|---|---|---|---|
+| < 0.01 ETH | $0.025 | $0.0075 | $0.015 | **-$0.007** | $0.045 | **-$0.037** |
+| < 0.05 ETH | $0.125 | $0.0375 | $0.015 | **+$0.022** | $0.045 | **-$0.007** |
+| < 0.1 ETH | $0.25 | $0.075 | $0.015 | **+$0.060** | $0.045 | **+$0.030** |
+| < 0.5 ETH | $2.50 | $0.75 | $0.015 | **+$0.735** | $0.045 | **+$0.705** |
+| < 0.75 ETH | $6.25 | $1.875 | $0.015 | **+$1.860** | $0.045 | **+$1.830** |
+| < 1 ETH | $12.50 | $3.75 | $0.015 | **+$3.735** | $0.045 | **+$3.705** |
+| ≥ 1 ETH | $25 | $7.50 | $0.015 | **+$7.485** | $0.045 | **+$7.455** |
 
 ---
 
@@ -86,7 +130,7 @@ Deployed on **Base** (L2).
 
 - **Runtime**: Node.js + TypeScript
 - **Backend**: Node.js + WebSocket (`ws`)
-- **AI**: Anthropic Claude API (Sonnet 3.5 + Haiku 3.5)
+- **AI**: Anthropic Claude API (Haiku 4.5 and Sonnet 4.6 depending on tier)
 - **Blockchain**: Base L2 — Solidity 0.8.x + Foundry
 - **Web3 Client**: Viem / Wagmi
 - **Frontend**: React + TypeScript + Vite

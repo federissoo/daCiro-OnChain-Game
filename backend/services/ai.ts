@@ -1,6 +1,17 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { Message } from "../session-store";
 import { PROMPTS } from "../prompts";
+import { logSession } from "./logger";
+
+const IS_PROD = process.env.NODE_ENV === "production";
+
+const CIRO_MODEL = IS_PROD
+    ? "claude-haiku-4-5-20251001"
+    : "claude-3-haiku-20240307";
+
+const JUDGE_MODEL = IS_PROD
+    ? "claude-haiku-4-5-20251001"
+    : "claude-3-haiku-20240307";
 
 const client = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY,
@@ -14,47 +25,50 @@ function toAnthropicMessages(messages: Message[]): Anthropic.MessageParam[] {
 }
 
 export async function judgeSurrender(messages: Message[], lang: 'it' | 'en' = 'it') {
-    // costruiamo la conversazione come testo da analizzare
     const conversation = messages
         .map(m => `${m.role === "player" ? "GIOCATORE" : "CIRO"}: ${m.text}`)
         .join("\n");
 
-    const content = lang === 'en' 
+    const content = lang === 'en'
         ? `Analyze this conversation and return the JSON:\n\n${conversation}`
         : `Analizza questa conversazione e restituisci il JSON:\n\n${conversation}`;
 
     const response = await client.messages.create({
-        model: "claude-haiku-4-5-20251001",
+        model: JUDGE_MODEL,
         max_tokens: 60,
         system: PROMPTS[lang].JUDGE_PROMPT,
-        messages: [
-            {
-                role: "user",
-                content
-            }
-        ],
+        messages: [{ role: "user", content }],
     });
 
     const textBlock = response.content[0];
     if (textBlock.type === "text") {
         try {
             const match = textBlock.text.match(/\{[\s\S]*?\}/);
-            if (match) {
-                return JSON.parse(match[0]);
-            }
-            return JSON.parse(textBlock.text);
+            const parsed = match
+                ? JSON.parse(match[0])
+                : JSON.parse(textBlock.text);
+
+            return {
+                ...parsed,
+                inputTokens: response.usage.input_tokens,
+                outputTokens: response.usage.output_tokens,
+            };
         } catch (e) {
             console.error("JSON parse error on:", textBlock.text);
-            return { surrender: 0, reason: "Error parsing JSON" };
+            return { surrender: 0, reason: "Error parsing JSON", inputTokens: 0, outputTokens: 0 };
         }
     }
 
-    return { surrender: 0, reason: "No text response" };
+    return { surrender: 0, reason: "No text response", inputTokens: 0, outputTokens: 0 };
 }
 
-export async function streamCiroResponse(messages: Message[], lang: 'it' | 'en' = 'it', onToken: (token: string) => void) {
+export async function streamCiroResponse(
+    messages: Message[],
+    lang: 'it' | 'en' = 'it',
+    onToken: (token: string) => void
+) {
     const stream = client.messages.stream({
-        model: "claude-sonnet-4-20250514",
+        model: CIRO_MODEL,
         max_tokens: 200,
         system: PROMPTS[lang].CIRO_PROMPT,
         messages: toAnthropicMessages(messages),
@@ -69,5 +83,11 @@ export async function streamCiroResponse(messages: Message[], lang: 'it' | 'en' 
         }
     }
 
-    return fullResponse;
+    const finalMessage = await stream.finalMessage();
+
+    return {
+        text: fullResponse,
+        inputTokens: finalMessage.usage.input_tokens,
+        outputTokens: finalMessage.usage.output_tokens,
+    };
 }

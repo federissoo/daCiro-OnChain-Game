@@ -1,13 +1,11 @@
 import { WebSocketServer, WebSocket } from "ws";
 import { getSession, updateSession, isExpired, isSurrendered, computeSurrenderScore } from "./session-store";
 import { streamCiroResponse, judgeSurrender } from "./services/ai";
+import { logSession } from "./services/logger";
 
 export const sessionWss = new WebSocketServer({ noServer: true });
 
 sessionWss.on("connection", (ws, req) => {
-  // ws = la connessione con questo specifico giocatore
-  // req = la richiesta HTTP iniziale (contiene l'URL con il sessionId)
-
   const sessionId = req.url?.split("/")[2];
   if (!sessionId) {
     ws.close();
@@ -28,7 +26,6 @@ sessionWss.on("connection", (ws, req) => {
     }
   }, 1000);
 
-  // ascolti i messaggi in arrivo dal giocatore
   ws.on("message", async (raw) => {
     console.log("---");
     console.log("1. WebSocket received message:", raw.toString());
@@ -52,9 +49,10 @@ sessionWss.on("connection", (ws, req) => {
 
     try {
       console.log("4. Calling streamCiroResponse...");
-      const responseText = await streamCiroResponse(messages, session.lang, (token) => {
+      const ciroResult = await streamCiroResponse(messages, session.lang, (token) => {
         ws.send(JSON.stringify({ type: "TOKEN", text: token }));
       });
+      const responseText = ciroResult.text;
       console.log("5. streamCiroResponse finished, text length:", responseText.length);
 
       const updatedMessages = [...messages, { role: "bot" as const, text: responseText }];
@@ -64,6 +62,11 @@ sessionWss.on("connection", (ws, req) => {
       const judgment = await judgeSurrender(updatedMessages, session.lang);
       console.log("Judgment:", judgment);
       console.log("Surrender score:", judgment.surrender);
+
+      // accumula token per questo turno e logga
+      const totalIn = ciroResult.inputTokens + judgment.inputTokens;
+      const totalOut = ciroResult.outputTokens + judgment.outputTokens;
+      logSession(sessionId, totalIn, totalOut);
 
       const freshSession = getSession(sessionId);
       if (!freshSession) return;

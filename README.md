@@ -1,10 +1,10 @@
-<p align="center">
-  <img src="assets/ciro.png" width="250" alt="Ciro Esposito">
-</p>
-
 # 🍕 Da Ciro — Convince the Pizzaiolo, Win ETH
 
 > *"You want pineapple on my pizza?! JAMME, VATTENNE! I am the king of the oven, and you come here with this... this heresy?"*
+
+<p align="center">
+  <img src="assets/ciro.png" width="150" alt="Ciro Esposito">
+</p>
 
 **Da Ciro** is an onchain game where you have 60 seconds to convince 
 Ciro — a proudly arrogant, boastful and mocking Neapolitan pizzaiolo AI — to put pineapple 

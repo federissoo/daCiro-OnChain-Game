@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, useChainId, usePublicClient, useReadContract, useSwitchChain, useWriteContract } from 'wagmi';
+import { formatEther, isAddress, parseEther, type Hex } from 'viem';
 
 /* ═══════════════════════════════════════════════════
    TYPES
@@ -44,6 +47,10 @@ const TRANSLATIONS = {
         retryBtn: "Riprova — 0.001 ETH",
         errConnectWallet: "Connetti il wallet prima",
         errServer: "Errore di connessione al server.",
+        errWrongNetwork: "Rete sbagliata. Passa a Base Sepolia.",
+        errInsufficientFunds: "Fondi insufficienti per pagare la fee.",
+        errTxRejected: "Transazione rifiutata.",
+        claimingBtn: "Riscossione...",
         tweet: "Ho convinto Ciro a mettere l'ananas sulla pizza! 🍍🍕 Ho vinto"
     },
     en: {
@@ -77,9 +84,22 @@ const TRANSLATIONS = {
         retryBtn: "Try Again — 0.001 ETH",
         errConnectWallet: "Connect wallet first",
         errServer: "Connection error to the server.",
+        errWrongNetwork: "Wrong network. Switch to Base Sepolia.",
+        errInsufficientFunds: "Insufficient funds to pay the fee.",
+        errTxRejected: "Transaction rejected.",
+        claimingBtn: "Claiming...",
         tweet: "I convinced Ciro to put pineapple on pizza! 🍍🍕 I won"
     }
 };
+
+const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS || '0xC52A0c121896b468f78C77a6CEEFe30C195dd523';
+const REQUIRED_CHAIN_ID = Number(import.meta.env.VITE_BASE_SEPOLIA_CHAIN_ID || '84532');
+const SIMPLE_VAULT_ABI = [
+    { type: 'function', name: 'startSession', stateMutability: 'payable', inputs: [], outputs: [] },
+    { type: 'function', name: 'claimVault', stateMutability: 'nonpayable', inputs: [{ name: 'sessionId', type: 'string' }, { name: 'signature', type: 'bytes' }], outputs: [] },
+    { type: 'function', name: 'getCurrentFee', stateMutability: 'view', inputs: [], outputs: [{ type: 'uint256' }] },
+    { type: 'function', name: 'vaultBalance', stateMutability: 'view', inputs: [], outputs: [{ type: 'uint256' }] },
+] as const;
 
 /* ═══════════════════════════════════════════════════
    CIRO CHARACTER SVG
@@ -316,7 +336,6 @@ export default function DaCiroApp() {
     const [lang, setLang] = useState<'it' | 'en'>('it');
     const t = TRANSLATIONS[lang];
     const [gameState, setGameState] = useState<GameState>('IDLE');
-    const [wallet, setWallet] = useState<string | null>(null);
     const [surrender, setSurrender] = useState(0);
     const [timer, setTimer] = useState(90);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -327,12 +346,38 @@ export default function DaCiroApp() {
     const chatRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const vaultAmount = '1.337';
+    const [isClaiming, setIsClaiming] = useState(false);
 
     const [sessionId, setSessionId] = useState<string | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
     const [ciroResponseBuffer, setCiroResponseBuffer] = useState<string>('');
     const ciroResponseBufferRef = useRef<string>('');
+    const { address, isConnected } = useAccount();
+    const chainId = useChainId();
+    const { switchChainAsync } = useSwitchChain();
+    const { openConnectModal } = useConnectModal();
+    const publicClient = usePublicClient({ chainId: REQUIRED_CHAIN_ID });
+    const { writeContractAsync } = useWriteContract();
+    const isWrongNetwork = isConnected && chainId !== REQUIRED_CHAIN_ID;
+
+    const { data: currentFee = parseEther('0.00001'), refetch: refetchCurrentFee } = useReadContract({
+        abi: SIMPLE_VAULT_ABI,
+        address: CONTRACT_ADDRESS as `0x${string}`,
+        functionName: 'getCurrentFee',
+        chainId: REQUIRED_CHAIN_ID,
+        query: { refetchInterval: 10_000 },
+    });
+
+    const { data: vaultBalance = 0n } = useReadContract({
+        abi: SIMPLE_VAULT_ABI,
+        address: CONTRACT_ADDRESS as `0x${string}`,
+        functionName: 'vaultBalance',
+        chainId: REQUIRED_CHAIN_ID,
+        query: { refetchInterval: 10_000 },
+    });
+
+    const vaultAmount = Number(formatEther(vaultBalance)).toFixed(5);
+    const currentFeeEth = Number(formatEther(currentFee)).toFixed(5);
 
     useEffect(() => {
         if (gameState === 'PLAYING') {
@@ -360,18 +405,52 @@ export default function DaCiroApp() {
         }
     }, [gameState, isTyping]);
 
-    const connectWallet = useCallback(() => setWallet('0xA1B2...C3D4'), []);
+    const ensureCorrectNetwork = useCallback(async () => {
+        if (!isWrongNetwork) return true;
+        if (!switchChainAsync) return false;
+        await switchChainAsync({ chainId: REQUIRED_CHAIN_ID });
+        return true;
+    }, [isWrongNetwork, switchChainAsync]);
 
     const startGame = useCallback(async () => {
-        if (!wallet) { setToast(t.errConnectWallet); return; }
+        if (!address || !isConnected) { setToast(t.errConnectWallet); return; }
         setGameState('PAYING');
 
         try {
+            if (!(await ensureCorrectNetwork())) {
+                setToast(t.errWrongNetwork);
+                setGameState('IDLE');
+                return;
+            }
+
+            const feeResult = await refetchCurrentFee();
+            const feeToPay = feeResult.data ?? currentFee;
+            if (!publicClient) {
+                setToast(t.errServer);
+                setGameState('IDLE');
+                return;
+            }
+
+            const txHash = await writeContractAsync({
+                abi: SIMPLE_VAULT_ABI,
+                address: CONTRACT_ADDRESS as `0x${string}`,
+                functionName: 'startSession',
+                value: feeToPay,
+                chainId: REQUIRED_CHAIN_ID,
+                account: address,
+            });
+
+            await publicClient.waitForTransactionReceipt({ hash: txHash });
+
             const res = await fetch("/session/start", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ playerName: wallet, lang })
+                body: JSON.stringify({ playerName: address, lang, txHash })
             });
+            if (!res.ok) {
+                const errorPayload = await res.json().catch(() => ({ message: t.errServer }));
+                throw new Error(errorPayload.message || t.errServer);
+            }
             const data = await res.json();
             setSessionId(data.sessionId);
 
@@ -423,10 +502,74 @@ export default function DaCiroApp() {
 
         } catch (error) {
             console.error("Error starting session:", error);
-            setToast(t.errServer);
+            const message = error instanceof Error ? error.message.toLowerCase() : '';
+            if (message.includes('rejected') || message.includes('user denied')) {
+                setToast(t.errTxRejected);
+            } else if (message.includes('insufficient')) {
+                setToast(t.errInsufficientFunds);
+            } else if (message.includes('chain') || message.includes('network')) {
+                setToast(t.errWrongNetwork);
+            } else {
+                setToast(error instanceof Error ? error.message : t.errServer);
+            }
             setGameState('IDLE');
         }
-    }, [wallet, lang, t]);
+    }, [address, currentFee, ensureCorrectNetwork, isConnected, lang, publicClient, refetchCurrentFee, t, writeContractAsync]);
+
+    const claimVault = useCallback(async () => {
+        if (!sessionId || !address) {
+            setToast(t.errServer);
+            return;
+        }
+
+        setIsClaiming(true);
+        try {
+            if (!(await ensureCorrectNetwork())) {
+                setToast(t.errWrongNetwork);
+                return;
+            }
+
+            const res = await fetch('/session/claim', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sessionId, walletAddress: address }),
+            });
+
+            if (!res.ok) {
+                const errorPayload = await res.json().catch(() => ({ message: t.errServer }));
+                throw new Error(errorPayload.message || t.errServer);
+            }
+
+            const data: { signature: Hex } = await res.json();
+            if (!isAddress(CONTRACT_ADDRESS) || !publicClient) {
+                throw new Error(t.errServer);
+            }
+
+            const claimHash = await writeContractAsync({
+                abi: SIMPLE_VAULT_ABI,
+                address: CONTRACT_ADDRESS as `0x${string}`,
+                functionName: 'claimVault',
+                args: [sessionId, data.signature],
+                chainId: REQUIRED_CHAIN_ID,
+                account: address,
+            });
+            await publicClient.waitForTransactionReceipt({ hash: claimHash });
+
+            setToast(lang === 'en' ? 'Claim completed!' : 'Riscossione completata!');
+        } catch (error) {
+            console.error('Error claiming vault:', error);
+            const message = error instanceof Error ? error.message.toLowerCase() : '';
+            if (message.includes('rejected') || message.includes('user denied')) {
+                setToast(t.errTxRejected);
+            } else if (message.includes('insufficient')) {
+                setToast(t.errInsufficientFunds);
+            } else {
+                setToast(error instanceof Error ? error.message : t.errServer);
+            }
+        } finally {
+            setIsClaiming(false);
+        }
+    }, [address, ensureCorrectNetwork, publicClient, sessionId, t, writeContractAsync]);
 
     const sendMessage = useCallback(() => {
         if (!input.trim() || gameState !== 'PLAYING' || isTyping || !wsRef.current) return;
@@ -526,20 +669,20 @@ export default function DaCiroApp() {
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
-                        {!wallet ? (
-                            <button className="btn" onClick={connectWallet} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>
+                        {!isConnected ? (
+                            <button className="btn" onClick={() => openConnectModal?.()} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>
                                 {t.connectBtn}
                             </button>
                         ) : (
                             <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 500, color: '#2D6A2D', ...card, padding: '8px 18px' }}>
-                                {wallet}
+                                {isWrongNetwork ? t.errWrongNetwork : `${address?.slice(0, 6)}...${address?.slice(-4)}`}
                             </div>
                         )}
                         <button className="btn" onClick={startGame} disabled={gameState === 'PAYING'}
                             style={{ background: '#CC2200', color: '#FFD700', border: '2px solid #8B1500', fontFamily: 'Outfit, sans-serif', boxShadow: '3px 3px 0 #660E00' }}>
                             {gameState === 'PAYING' ? (
                                 <><div style={{ width: 18, height: 18, border: '2px solid #FFD700', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spinner 0.6s linear infinite' }} /> {t.enteringBtn}</>
-                            ) : t.enterBtn}
+                            ) : `${t.enterBtn.split('—')[0].trim()} — ${currentFeeEth} ETH`}
                         </button>
                     </div>
                 </section>
@@ -669,7 +812,7 @@ export default function DaCiroApp() {
                         <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', fontWeight: 800, color: '#CC2200' }}>{vaultAmount} ETH</div>
                     </motion.div>
                     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
-                        <button className="btn" onClick={() => setToast('Claim submitted (mock)')} style={{ background: '#2D6A2D', color: 'white', border: '2px solid #1A4A1A' }}>{t.claimBtn}</button>
+                        <button className="btn" onClick={claimVault} disabled={isClaiming} style={{ background: '#2D6A2D', color: 'white', border: '2px solid #1A4A1A' }}>{isClaiming ? t.claimingBtn : t.claimBtn}</button>
                         <button className="btn" onClick={() => { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${t.tweet} ${vaultAmount} ETH!`)}`, '_blank'); }}
                             style={{ background: '#1DA1F2', color: 'white', border: '2px solid #1181C2' }}>{t.shareBtn}</button>
                         <button className="btn" onClick={resetGame} style={{ background: '#FFF8E7', color: '#3A1A0A', border: '2px solid #8B5E3C', fontFamily: 'Outfit, sans-serif' }}>{t.homeBtn}</button>

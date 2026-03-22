@@ -6,7 +6,7 @@
   <img src="assets/ciro.png" width="150" alt="Ciro Esposito">
 </p>
 
-**Da Ciro** is an onchain game where you have 60 seconds to convince 
+**Da Ciro** is an onchain game where you have 90 seconds to convince 
 Ciro — a proudly arrogant, boastful and mocking Neapolitan pizzaiolo AI — to put pineapple 
 on his sacred margherita. If you break his resistance, you win the vault.
 
@@ -95,7 +95,6 @@ prize and attracting more players), 30% covers operational costs
 │   ├── index.ts       # Entry point
 │   ├── routes.ts      # HTTP routes
 │   ├── session-store.ts # Session management
-│   ├── session-logs.txt # Token usage logs
 │   └── websockets.ts  # Real-time game logic
 ├── contracts/         # Solidity smart contracts (Foundry)
 │   ├── src/
@@ -160,7 +159,8 @@ cd daCiro
 cd backend
 npm install
 cp .env.example .env   # fill in your keys
-npm run dev
+cd ..
+npm run dev:backend
 ```
 
 3. **Contracts Setup**
@@ -182,21 +182,27 @@ npm run dev
 
 ## Environment Variables
 
-The project uses two separate environment files to separate concerns between the backend and the smart contracts.
+The project uses three environment files to separate frontend, backend and contract concerns.
 
-### 1. Backend / Root (`.env`)
+### 1. Backend (`backend/.env`)
 ```bash
 ANTHROPIC_API_KEY=sk-ant-...     # API key for Claude 
 NODE_ENV=development             # 'development' or 'production'
 PORT=3000                        # Backend server port
-FRONTEND_URL=http://localhost:5173 
-
-# Note: The following are required by the backend to sign claims
-SIGNER_PRIVATE_KEY=0x...         # MUST match the contracts signer
-CONTRACT_ADDRESS=0x...           # The deployed SimpleVault address
+CONTRACT_ADDRESS=0x...           # SimpleVault deployed address (Base Sepolia)
+BASE_RPC_URL=https://...         # Base Sepolia RPC endpoint
+SIGNER_PRIVATE_KEY=0x...         # Private key used to sign claim payloads
 ```
 
-### 2. Smart Contracts (`contracts/.env`)
+### 2. Frontend (`.env`)
+```bash
+VITE_CONTRACT_ADDRESS=0x...                  # Same SimpleVault address
+VITE_BASE_SEPOLIA_CHAIN_ID=84532             # Base Sepolia chain ID
+VITE_BASE_RPC_URL=https://...                # Base Sepolia RPC endpoint
+VITE_WALLET_CONNECT_PROJECT_ID=...           # WalletConnect Cloud project ID
+```
+
+### 3. Smart Contracts (`contracts/.env`)
 ```bash
 PRIVATE_KEY=0x...                # Deployer private key
 ADDRESS=0x...                    # Deployer public address 
@@ -219,6 +225,12 @@ SIGNER_ADDRESS=0x...
 
 ---
 
+## Contribution
+
+Welcomed contributions, ideas and discussions!
+
+---
+  
 ## License
 
 MIT

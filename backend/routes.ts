@@ -74,6 +74,3 @@ router.post("/session/claim", async (req, res) => {
   }
 });
 
-router.use((req, res) => {
-  res.json({ message: "404 not found" });
-});

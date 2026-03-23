@@ -10,9 +10,7 @@
 Ciro — a proudly arrogant, boastful and mocking Neapolitan pizzaiolo AI — to put pineapple 
 on his sacred margherita. If you break his resistance, you win the vault.
 
-🎮 **[Play the Live Demo on Base Sepolia](https://your-app-name.up.railway.app/)** *(Replace with your actual Railway domain)*
-
-🔍 **[Verified Smart Contract on BaseScan](https://sepolia.basescan.org/address/0xC52A0c121896b468f78C77a6CEEFe30C195dd523)**
+🎮 **[Play the Live Demo on Base Sepolia](https://daciro-onchain-game-production.up.railway.app/)**
 
 ---
 
@@ -139,7 +137,7 @@ Deployed on **Base** (L2).
 
 - **Runtime**: Node.js + TypeScript
 - **Backend**: Node.js + WebSocket (`ws`)
-- **AI**: Anthropic Claude API (Haiku 4.5 and Sonnet 4.6 depending on tier)
+- **AI**: Anthropic Claude API (Haiku 3, Haiku 4.5 and Sonnet 4.6 depending on tier)
 - **Blockchain**: Base L2 — Solidity 0.8.x + Foundry
 - **Web3 Client**: Viem / Wagmi
 - **Frontend**: React + TypeScript + Vite
@@ -159,16 +157,19 @@ Deployed on **Base** (L2).
 1. **Clone the repository**
 ```bash
 git clone <repo-url>
-cd daCiro
+cd daCiro-OnChain-Game
 ```
 
-2. **Backend Setup**
+2. **Backend & Frontend Setup (Root)**
 ```bash
-cd backend
+# Install all dependencies (Backend + Frontend)
 npm install
-cp .env.example .env   # fill in your keys
-cd ..
-npm run dev:backend
+
+# Create environment file
+cp .env.example .env   # fill in your keys (Anthropic, RPC, etc.)
+
+# Start the application
+npm run dev            # Starts both Backend and Frontend concurrently
 ```
 
 3. **Contracts Setup**
@@ -177,13 +178,6 @@ cd contracts
 forge install
 forge build
 forge test
-```
-
-4. **Frontend Setup (Root)**
-```bash
-# From the root directory
-npm install
-npm run dev
 ```
 
 ---
@@ -198,9 +192,8 @@ Create an `.env` file at the exact root of the project to hold both Node.js (Bac
 # ----- BACKEND -----
 ANTHROPIC_API_KEY=sk-ant-...     # API key for Claude 
 NODE_ENV=development             # 'development' or 'production' (Production serves the React build)
-USE_CHEAP_MODELS=true            # Set to true to force Haiku-3 on testnet deployments to save costs
 PORT=3000                        
-CONTRACT_ADDRESS=0xC5...           
+CONTRACT_ADDRESS=0x...           
 BASE_RPC_URL=https://...         
 SIGNER_PRIVATE_KEY=0x...         # Critical: private key used by the backend to sign your win 
 
@@ -232,12 +225,14 @@ SIGNER_PRIVATE_KEY=0x...         # Signature mock for forge tests
 - **Replay protection (Transactions)** — the backend actively tracks used `txHash` to prevent an attacker from repeatedly starting thousands of games with a single fee payment.
 - **Prompt injection guard** — dual-agent separation + Judge validation
 - **Backend timer** — session expiry is enforced server-side, not client-side
+- **Message limit** — each session is capped at 20 player messages; the WebSocket is closed if exceeded
+- **Message length limit** — player messages are capped at 500 characters; longer inputs are rejected before reaching the AI
 
 ---
 
 ## Contribution
 
-Welcomed contributions, ideas and discussions!
+Contributions are welcome! Please read [CONTRIBUTING.md](file:///Users/federisso/Desktop/daCiro%20-%20OnChain%20game/CONTRIBUTING.md) for details on how to get started.
 
 ---
   

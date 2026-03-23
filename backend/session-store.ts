@@ -17,6 +17,11 @@ export type Session = {
 const sessions: Map<string, Session> = new Map();
 const usedTxHashes: Set<string> = new Set();
 
+// Anti-abuse: max number of player messages allowed per session
+export const MAX_MESSAGES_PER_SESSION = 20;
+// Anti-abuse: max length (characters) of a single player message
+export const MAX_MESSAGE_LENGTH = 500;
+
 export function isTxHashUsed(txHash: string): boolean {
     return usedTxHashes.has(txHash);
 }

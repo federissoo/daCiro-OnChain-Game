@@ -33,45 +33,35 @@ Da Ciro is a unified monorepo. Here's exactly how to spin it up locally.
 - A free **Anthropic API key**.
 
 ### 2. Environment Variables
-You need two `.env` files. One in the root directory (for the Application) and one inside the `contracts/` directory (for Foundry).
+You need two `.env` files. One in the root directory (for the Application) and one inside the `contracts/` directory (for Foundry). For a quick start, you can copy the provided example files:
 
 **Root `/` (`.env`)**
-Create this file and add:
-```env
-# BACKEND
-NODE_ENV=development
-PORT=3000
-ANTHROPIC_API_KEY=sk-ant-...
-CONTRACT_ADDRESS=0xC52A0c121896b468f78C77a6CEEFe30C195dd523
-BASE_RPC_URL=https://sepolia.base.org
-SIGNER_PRIVATE_KEY=0x_random_64_character_hex_string_for_local_testing
-
-# FRONTEND
-VITE_CONTRACT_ADDRESS=0xC52A0c121896b468f78C77a6CEEFe30C195dd523
-VITE_BASE_SEPOLIA_CHAIN_ID=84532
-VITE_BASE_RPC_URL=https://sepolia.base.org
+```bash
+cp .env.example .env
 ```
+*(Then fill in your `ANTHROPIC_API_KEY`, etc.)*
 
 **Contracts directory `/contracts` (`.env`)**
-Create this file and add:
-```env
-CONTRACT_ADDRESS=0xC52A0c121896b468f78C77a6CEEFe30C195dd523
-BASE_RPC_URL=https://sepolia.base.org
-PRIVATE_KEY=0x... # Needed ONLY if you intend to deploy your own version of the contract
+```bash
+cd contracts
+cp .env.example .env
 ```
+*(Then fill in your `PRIVATE_KEY`, etc.)*
 
-### 3. Running the Game
 To run both the React frontend and the Express backend simultaneously with hot-reloading:
 ```bash
+# From the root directory
 npm install
 npm run dev
 ```
 The game will be available at `http://localhost:5173`.
 
-### 4. Running Smart Contract Tests
+### 4. Smart Contract Setup & Tests
 If you modify `SimpleVault.sol`, make sure all tests pass before submitting a PR:
 ```bash
 cd contracts
+forge install
+forge build
 forge test
 ```
 

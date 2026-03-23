@@ -1,5 +1,5 @@
 import { WebSocketServer, WebSocket } from "ws";
-import { getSession, updateSession, isExpired, isSurrendered, computeSurrenderScore } from "./session-store";
+import { getSession, updateSession, isExpired, isSurrendered, computeSurrenderScore, MAX_MESSAGES_PER_SESSION, MAX_MESSAGE_LENGTH } from "./session-store";
 import { streamCiroResponse, judgeSurrender } from "./services/ai";
 import { logSession } from "./services/logger";
 
@@ -40,6 +40,30 @@ sessionWss.on("connection", (ws, req) => {
 
     if (isExpired(session) || isSurrendered(session)) {
       console.log("2a. Session expired or already surrendered");
+      return;
+    }
+
+    // Anti-abuse: check message length
+    if (!parsed.text || typeof parsed.text !== "string" || parsed.text.trim().length === 0) {
+      ws.send(JSON.stringify({ type: "ERROR", message: "Empty message" }));
+      return;
+    }
+    if (parsed.text.length > MAX_MESSAGE_LENGTH) {
+      const errMsg = session.lang === 'en'
+        ? `Message too long. Maximum ${MAX_MESSAGE_LENGTH} characters allowed.`
+        : `Messaggio troppo lungo. Massimo ${MAX_MESSAGE_LENGTH} caratteri consentiti.`;
+      ws.send(JSON.stringify({ type: "ERROR", message: errMsg }));
+      return;
+    }
+
+    // Anti-abuse: count only player messages already in session
+    const playerMessageCount = session.messages.filter(m => m.role === "player").length;
+    if (playerMessageCount >= MAX_MESSAGES_PER_SESSION) {
+      const errMsg = session.lang === 'en'
+        ? `Maximum number of messages reached (${MAX_MESSAGES_PER_SESSION}). Session closed.`
+        : `Numero massimo di messaggi raggiunto (${MAX_MESSAGES_PER_SESSION}). Sessione terminata.`;
+      ws.send(JSON.stringify({ type: "EXPIRED", message: errMsg }));
+      ws.close();
       return;
     }
 

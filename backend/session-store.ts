@@ -67,6 +67,15 @@ export function isSurrendered(session: Session): boolean {
 
 export function computeSurrenderScore(history: number[]): number {
     if (history.length === 0) return 0;
-    const sum = history.reduce((a, b) => a + b, 0);
-    return Math.round(sum / history.length);
+    if (history.some(score => score >= 100)) return 100;
+    
+    // Il "danno" primario è la tua frase migliore assoluta
+    const maxScore = Math.max(...history);
+    
+    // Un bonus per lo sfinimento psicologico (20% della media globale dei tuoi tentativi)
+    const sum = history.reduce((acc, score) => acc + score, 0);
+    const average = sum / history.length;
+    
+    // Punteggio = Danno massimo + Logoramento (cappato a 100)
+    return Math.min(100, Math.round(maxScore + (average * 0.2)));
 }

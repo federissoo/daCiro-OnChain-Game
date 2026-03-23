@@ -10,6 +10,10 @@
 Ciro — a proudly arrogant, boastful and mocking Neapolitan pizzaiolo AI — to put pineapple 
 on his sacred margherita. If you break his resistance, you win the vault.
 
+🎮 **[Play the Live Demo on Base Sepolia](https://your-app-name.up.railway.app/)** *(Replace with your actual Railway domain)*
+
+🔍 **[Verified Smart Contract on BaseScan](https://sepolia.basescan.org/address/0xC52A0c121896b468f78C77a6CEEFe30C195dd523)**
+
 ---
 
 ## How It Works
@@ -17,9 +21,13 @@ on his sacred margherita. If you break his resistance, you win the vault.
 1. **Pay the session fee** to start (fee scales dynamically with vault size)
 2. **Chat with Ciro** — he will mock you and laugh at you
 3. **Convince him** using creative arguments, cultural references, or pure persistence
-4. **Win the vault** when his surrender score reaches 100
+4. **Win the vault** when his surrender score hits 100
 
-The harder it is to convince him, the bigger the vault grows.
+**The Math Behind the Surrender Score:**
+Ciro's psychological armor tracks your *persistence*. The final score isn't a simple average of your phrases. It is calculated as your **Best Argument (High-Watermark)** plus a **Persistence Bonus** (20% of your global average effort). 
+A single brilliant sentence (100) shatters his armor and instantly wins the game.
+
+The harder it is to convince him overall, the bigger the vault grows for the next player.
 
 ---
 
@@ -182,35 +190,36 @@ npm run dev
 
 ## Environment Variables
 
-The project uses three environment files to separate frontend, backend and contract concerns.
+Da Ciro is configured as a unified monorepo. You only need **two** `.env` files (one for the Application, and one exclusively for the Smart Contracts tooling).
 
-### 1. Backend (`backend/.env`)
+### 1. Unified App (`/.env`)
+Create an `.env` file at the exact root of the project to hold both Node.js (Backend) and Vite (Frontend) variables:
 ```bash
+# ----- BACKEND -----
 ANTHROPIC_API_KEY=sk-ant-...     # API key for Claude 
-NODE_ENV=development             # 'development' or 'production'
-PORT=3000                        # Backend server port
-CONTRACT_ADDRESS=0x...           # SimpleVault deployed address (Base Sepolia)
-BASE_RPC_URL=https://...         # Base Sepolia RPC endpoint
-SIGNER_PRIVATE_KEY=0x...         # Private key used to sign claim payloads
+NODE_ENV=development             # 'development' or 'production' (Production serves the React build)
+USE_CHEAP_MODELS=true            # Set to true to force Haiku-3 on testnet deployments to save costs
+PORT=3000                        
+CONTRACT_ADDRESS=0xC5...           
+BASE_RPC_URL=https://...         
+SIGNER_PRIVATE_KEY=0x...         # Critical: private key used by the backend to sign your win 
+
+# ----- FRONTEND (VITE) -----
+VITE_CONTRACT_ADDRESS=0xC5...                  
+VITE_BASE_SEPOLIA_CHAIN_ID=84532             
+VITE_BASE_RPC_URL=https://...                
+VITE_WALLET_CONNECT_PROJECT_ID=...           
 ```
 
-### 2. Frontend (`.env`)
-```bash
-VITE_CONTRACT_ADDRESS=0x...                  # Same SimpleVault address
-VITE_BASE_SEPOLIA_CHAIN_ID=84532             # Base Sepolia chain ID
-VITE_BASE_RPC_URL=https://...                # Base Sepolia RPC endpoint
-VITE_WALLET_CONNECT_PROJECT_ID=...           # WalletConnect Cloud project ID
-```
-
-### 3. Smart Contracts (`contracts/.env`)
+### 2. Smart Contracts (`contracts/.env`)
+Only required for developers wanting to re-deploy or run `forge test`:
 ```bash
 PRIVATE_KEY=0x...                # Deployer private key
-ADDRESS=0x...                    # Deployer public address 
-CONTRACT_ADDRESS=0x...           # Deployed vault address
-BASE_RPC_URL=https://...         # L2 RPC URL
+ADDRESS=0x...                    
+CONTRACT_ADDRESS=0xC5...           
+BASE_RPC_URL=https://...         
 BASESCAN_API_KEY=...             # For contract verification on BaseScan
-SIGNER_PRIVATE_KEY=0x...         # For generating signatures during testing
-SIGNER_ADDRESS=0x...
+SIGNER_PRIVATE_KEY=0x...         # Signature mock for forge tests
 ```
 
 ---
@@ -219,7 +228,8 @@ SIGNER_ADDRESS=0x...
 
 - **Signature verification** — vault claims require a backend-signed proof 
   (`ecrecover` via OpenZeppelin ECDSA)
-- **Replay protection** — each `sessionId` and signature can only be used once
+- **Replay protection (Sessions)** — each `sessionId` and signature can only be used once for claiming the vault.
+- **Replay protection (Transactions)** — the backend actively tracks used `txHash` to prevent an attacker from repeatedly starting thousands of games with a single fee payment.
 - **Prompt injection guard** — dual-agent separation + Judge validation
 - **Backend timer** — session expiry is enforced server-side, not client-side
 

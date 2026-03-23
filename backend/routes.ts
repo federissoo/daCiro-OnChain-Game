@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { type Address, type Hex, getAddress, isAddress, isHash } from "viem";
-import { createSession, getSession, updateSession } from "./session-store";
+import { createSession, getSession, updateSession, isTxHashUsed, markTxHashAsUsed } from "./session-store";
 import { signVictory } from "./services/signer";
 import { verifyTransaction } from "./services/blockchain";
 
@@ -19,11 +19,17 @@ router.post("/session/start", async (req, res) => {
     return res.status(400).json({ message: "Invalid transaction hash" });
   }
 
+  if (isTxHashUsed(txHash)) {
+    return res.status(400).json({ message: "Transaction already used for another session" });
+  }
+
   try {
     const verification = await verifyTransaction(txHash as Hex, walletAddress as Address);
     if (!verification.ok) {
       return res.status(400).json({ message: verification.reason ?? "Transaction verification failed" });
     }
+
+    markTxHashAsUsed(txHash);
 
     const session = createSession(getAddress(walletAddress), lang);
     return res.json({ sessionId: session.sessionId });
@@ -66,13 +72,6 @@ router.post("/session/claim", async (req, res) => {
     console.error("Error during /session/claim signing:", error);
     return res.status(500).json({ message: "Unable to sign claim" });
   }
-});
-
-router.post("/session/winner", (req, res) => {
-  const session = getSession(req.body.sessionId);
-  updateSession(req.body.sessionId, { status: "won" });
-  const message = session?.lang === "en" ? "You won!" : "Hai vinto!";
-  res.json({ message });
 });
 
 router.use((req, res) => {

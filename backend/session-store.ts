@@ -15,6 +15,15 @@ export type Session = {
 }
 
 const sessions: Map<string, Session> = new Map();
+const usedTxHashes: Set<string> = new Set();
+
+export function isTxHashUsed(txHash: string): boolean {
+    return usedTxHashes.has(txHash);
+}
+
+export function markTxHashAsUsed(txHash: string): void {
+    usedTxHashes.add(txHash);
+}
 
 export function createSession(playerName: string, lang: 'it' | 'en' = 'it'): Session {
     const session: Session = {

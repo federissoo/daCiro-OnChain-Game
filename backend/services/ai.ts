@@ -5,7 +5,8 @@ import { PROMPTS } from "../prompts";
 import { getVaultBalance } from "./blockchain";
 import { logSession } from "./logger";
 
-const IS_PROD = process.env.NODE_ENV === "production";
+const USE_CHEAP_MODELS = process.env.USE_CHEAP_MODELS === "true";
+const IS_PROD = process.env.NODE_ENV === "production" && !USE_CHEAP_MODELS;
 
 const BASE_CIRO_MODEL = IS_PROD
   ? "claude-haiku-4-5-20251001"

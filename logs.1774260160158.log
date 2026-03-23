@@ -1,0 +1,265 @@
+2026-03-23T10:01:46.320635753Z [inf]  Starting Container
+2026-03-23T10:01:47.192627292Z [inf]  
+2026-03-23T10:01:47.192632130Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:01:47.192635865Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:01:47.192637799Z [inf]  
+2026-03-23T10:01:47.192642578Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:01:47.192643655Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:01:47.192649353Z [inf]  > tsx backend/index.ts
+2026-03-23T10:01:47.192651571Z [err]              ^
+2026-03-23T10:01:47.192656558Z [err]  
+2026-03-23T10:01:47.192661888Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:01:47.192668603Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:01:47.192670247Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:01:47.192674043Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:01:47.192680534Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:01:47.192681131Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:01:47.192686265Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:01:47.192689169Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:01:47.192691149Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:01:47.192696615Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:01:47.192701526Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:01:47.192706806Z [err]    originalPath: '*'
+2026-03-23T10:01:47.192710956Z [err]  }
+2026-03-23T10:01:47.192715434Z [err]  
+2026-03-23T10:01:47.193361698Z [err]  Node.js v22.22.1
+2026-03-23T10:01:47.835622821Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:01:47.842308676Z [inf]  
+2026-03-23T10:01:47.842313743Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:01:47.842318169Z [inf]  > tsx backend/index.ts
+2026-03-23T10:01:47.842322661Z [inf]  
+2026-03-23T10:01:48.776293029Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:01:48.776299784Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:01:48.776303381Z [err]              ^
+2026-03-23T10:01:48.776308447Z [err]  
+2026-03-23T10:01:48.776312724Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:01:48.776317314Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:01:48.776320782Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:01:48.776325242Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:01:48.776329008Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:01:48.776333053Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:01:48.776336684Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:01:48.776340500Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:01:48.776348380Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:01:48.776352423Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:01:48.776355727Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:01:48.776359556Z [err]    originalPath: '*'
+2026-03-23T10:01:48.776362778Z [err]  }
+2026-03-23T10:01:48.776366180Z [err]  
+2026-03-23T10:01:48.776369346Z [err]  Node.js v22.22.1
+2026-03-23T10:01:49.436143087Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:01:49.436159588Z [inf]  
+2026-03-23T10:01:49.436162478Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:01:49.436165173Z [inf]  > tsx backend/index.ts
+2026-03-23T10:01:49.436167767Z [inf]  
+2026-03-23T10:01:50.321103414Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:01:50.321110719Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:01:50.321115214Z [err]              ^
+2026-03-23T10:01:50.321119510Z [err]  
+2026-03-23T10:01:50.321123106Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:01:50.321126471Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:01:50.321130092Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:01:50.321133494Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:01:50.321136612Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:01:50.321140393Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:01:50.321143897Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:01:50.321147368Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:01:50.321151339Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:01:50.321154835Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:01:50.321158317Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:01:50.321161557Z [err]    originalPath: '*'
+2026-03-23T10:01:50.321164519Z [err]  }
+2026-03-23T10:01:50.321167684Z [err]  
+2026-03-23T10:01:50.321170858Z [err]  Node.js v22.22.1
+2026-03-23T10:01:51.549537258Z [inf]  
+2026-03-23T10:01:51.549566851Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:01:51.549569686Z [inf]  
+2026-03-23T10:01:51.549572500Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:01:51.549575419Z [inf]  > tsx backend/index.ts
+2026-03-23T10:01:52.456995507Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:01:52.457003900Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:01:52.457009285Z [err]              ^
+2026-03-23T10:01:52.457014685Z [err]  
+2026-03-23T10:01:52.457019253Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:01:52.457023901Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:01:52.457028267Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:01:52.457032751Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:01:52.457037318Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:01:52.457045374Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:01:52.457050320Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:01:52.457055561Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:01:52.457069689Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:01:52.457074664Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:01:52.457078822Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:01:52.457083154Z [err]    originalPath: '*'
+2026-03-23T10:01:52.457087427Z [err]  }
+2026-03-23T10:01:52.457092318Z [err]  
+2026-03-23T10:01:52.457096007Z [err]  Node.js v22.22.1
+2026-03-23T10:01:54.629035792Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:01:54.633890308Z [inf]  
+2026-03-23T10:01:54.633898314Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:01:54.633903750Z [inf]  > tsx backend/index.ts
+2026-03-23T10:01:54.633908642Z [inf]  
+2026-03-23T10:01:55.509275631Z [err]  }
+2026-03-23T10:01:55.509281043Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:01:55.509284537Z [err]  
+2026-03-23T10:01:55.509285236Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:01:55.509291355Z [err]              ^
+2026-03-23T10:01:55.509291481Z [err]  Node.js v22.22.1
+2026-03-23T10:01:55.509295760Z [err]  
+2026-03-23T10:01:55.509299215Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:01:55.509302318Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:01:55.509305111Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:01:55.509307802Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:01:55.509310572Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:01:55.509313280Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:01:55.509315989Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:01:55.509318633Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:01:55.509321260Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:01:55.509323904Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:01:55.509326820Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:01:55.509329378Z [err]    originalPath: '*'
+2026-03-23T10:01:58.418750368Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:01:58.430897191Z [inf]  
+2026-03-23T10:01:58.430902074Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:01:58.430905361Z [inf]  > tsx backend/index.ts
+2026-03-23T10:01:58.430909746Z [inf]  
+2026-03-23T10:01:59.433854142Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:01:59.433856765Z [err]  }
+2026-03-23T10:01:59.433863112Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:01:59.433865968Z [err]  
+2026-03-23T10:01:59.433870357Z [err]  Node.js v22.22.1
+2026-03-23T10:01:59.433874439Z [err]              ^
+2026-03-23T10:01:59.433879117Z [err]  
+2026-03-23T10:01:59.433883220Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:01:59.433887106Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:01:59.433890853Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:01:59.433895170Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:01:59.433898607Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:01:59.433902251Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:01:59.433905510Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:01:59.433908940Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:01:59.433913377Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:01:59.433918365Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:01:59.433922922Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:01:59.433927915Z [err]    originalPath: '*'
+2026-03-23T10:02:02.783874986Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:02:02.810952394Z [inf]  
+2026-03-23T10:02:02.810980746Z [inf]  
+2026-03-23T10:02:02.810986140Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:02:02.810991272Z [inf]  > tsx backend/index.ts
+2026-03-23T10:02:03.728767418Z [err]  }
+2026-03-23T10:02:03.728767935Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:02:03.728781627Z [err]  
+2026-03-23T10:02:03.728783062Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:02:03.728788385Z [err]  Node.js v22.22.1
+2026-03-23T10:02:03.728790502Z [err]              ^
+2026-03-23T10:02:03.728795042Z [err]  
+2026-03-23T10:02:03.728801015Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:02:03.728805330Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:02:03.728809800Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:02:03.728824012Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:02:03.728828904Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:02:03.728833885Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:02:03.728838772Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:02:03.728843007Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:02:03.728847124Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:02:03.728851376Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:02:03.728855383Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:02:03.728859219Z [err]    originalPath: '*'
+2026-03-23T10:02:05.572765594Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:02:05.580517217Z [inf]  
+2026-03-23T10:02:05.580523483Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:02:05.580526679Z [inf]  > tsx backend/index.ts
+2026-03-23T10:02:05.580530300Z [inf]  
+2026-03-23T10:02:06.555051763Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:02:06.555055292Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:02:06.555059843Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:02:06.555063055Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:02:06.555065323Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:02:06.555069002Z [err]              ^
+2026-03-23T10:02:06.555071134Z [err]    originalPath: '*'
+2026-03-23T10:02:06.555075532Z [err]  
+2026-03-23T10:02:06.555076489Z [err]  }
+2026-03-23T10:02:06.555081062Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:02:06.555082716Z [err]  
+2026-03-23T10:02:06.555086529Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:02:06.555088521Z [err]  Node.js v22.22.1
+2026-03-23T10:02:06.555091318Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:02:06.555094598Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:02:06.555099941Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:02:06.555103784Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:02:06.555107787Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:02:06.555110416Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:02:08.786086642Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:02:08.846009010Z [inf]  
+2026-03-23T10:02:08.846013834Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:02:08.846016899Z [inf]  > tsx backend/index.ts
+2026-03-23T10:02:08.846019985Z [inf]  
+2026-03-23T10:02:09.681455403Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:02:09.681466507Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:02:09.681472038Z [err]              ^
+2026-03-23T10:02:09.681476965Z [err]  
+2026-03-23T10:02:09.681482014Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:02:09.681487124Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:02:09.681491859Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:02:09.681496502Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:02:09.681501043Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:02:09.681505931Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:02:09.681511074Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:02:09.681516170Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:02:09.681520342Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:02:09.681524325Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:02:09.681527459Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:02:09.681530515Z [err]    originalPath: '*'
+2026-03-23T10:02:09.681533599Z [err]  }
+2026-03-23T10:02:09.681538301Z [err]  
+2026-03-23T10:02:09.681541423Z [err]  Node.js v22.22.1
+2026-03-23T10:02:11.453430614Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:02:11.453434714Z [inf]  
+2026-03-23T10:02:11.453439353Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:02:11.453443935Z [inf]  > tsx backend/index.ts
+2026-03-23T10:02:11.453447147Z [inf]  
+2026-03-23T10:02:12.457793274Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:02:12.457797653Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:02:12.457798643Z [err]    originalPath: '*'
+2026-03-23T10:02:12.457801534Z [err]              ^
+2026-03-23T10:02:12.457806564Z [err]  
+2026-03-23T10:02:12.457809777Z [err]  }
+2026-03-23T10:02:12.457811326Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:02:12.457815558Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:02:12.457819646Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:02:12.457822769Z [err]  
+2026-03-23T10:02:12.457824486Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:02:12.457828658Z [err]  Node.js v22.22.1
+2026-03-23T10:02:12.457830232Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:02:12.457834155Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:02:12.457837716Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:02:12.457841067Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:02:12.457843936Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)
+2026-03-23T10:02:12.457846818Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:02:12.457849598Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:02:12.888999659Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-03-23T10:02:12.906094140Z [inf]  
+2026-03-23T10:02:12.906102408Z [inf]  > learn-backend@1.0.0 start
+2026-03-23T10:02:12.906105864Z [inf]  > tsx backend/index.ts
+2026-03-23T10:02:12.906109109Z [inf]  
+2026-03-23T10:02:13.838095695Z [err]      at app.<computed> [as get] (/app/node_modules/express/lib/application.js:478:22)
+2026-03-23T10:02:13.838104362Z [err]      at <anonymous> (/app/backend/index.ts:22:9) {
+2026-03-23T10:02:13.838106297Z [err]  /app/node_modules/path-to-regexp/src/index.ts:225
+2026-03-23T10:02:13.838109487Z [err]    originalPath: '*'
+2026-03-23T10:02:13.838115320Z [err]  }
+2026-03-23T10:02:13.838116371Z [err]        throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-03-23T10:02:13.838121476Z [err]  
+2026-03-23T10:02:13.838122709Z [err]              ^
+2026-03-23T10:02:13.838126666Z [err]  Node.js v22.22.1
+2026-03-23T10:02:13.838128700Z [err]  
+2026-03-23T10:02:13.838132342Z [err]  PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-03-23T10:02:13.838135627Z [err]      at name (/app/node_modules/path-to-regexp/src/index.ts:225:13)
+2026-03-23T10:02:13.838139585Z [err]      at parse (/app/node_modules/path-to-regexp/src/index.ts:242:62)
+2026-03-23T10:02:13.838142616Z [err]      at pathToRegexp (/app/node_modules/path-to-regexp/src/index.ts:480:54)
+2026-03-23T10:02:13.838146594Z [err]      at Object.match (/app/node_modules/path-to-regexp/src/index.ts:438:28)
+2026-03-23T10:02:13.838150710Z [err]      at matcher (/app/node_modules/router/lib/layer.js:86:23)
+2026-03-23T10:02:13.838155158Z [err]      at new Layer (/app/node_modules/router/lib/layer.js:93:62)
+2026-03-23T10:02:13.838159694Z [err]      at Function.route (/app/node_modules/router/index.js:428:17)
+2026-03-23T10:02:13.838163475Z [err]      at Function.route (/app/node_modules/express/lib/application.js:257:22)

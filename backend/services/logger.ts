@@ -5,6 +5,7 @@ export function logSession(
     tokensIn: number,
     tokensOut: number
 ) {
-    const line = `[${new Date().toISOString()}] session=${sessionId} in=${tokensIn} out=${tokensOut}\n`;
-    appendFileSync("session-logs.txt", line);
+    const line = `[${new Date().toISOString()}] session=${sessionId} in=${tokensIn} out=${tokensOut}`;
+    console.log(line);
+    appendFileSync("session-logs.txt", line + "\n");
 }
